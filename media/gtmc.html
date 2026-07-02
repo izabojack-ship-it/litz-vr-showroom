@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>台中精機VR展覽館</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <base href="/victortaichung_tw/" />
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MNLCD29KE3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-MNLCD29KE3', {
+            cookieFlags: 'max-age=7200;secure;samesite=none'
+        });
+    </script>
+    <!-- End Google Analytics -->
+        
+    <script type="text/javascript" src="admin/assets/js/jquery-1.10.2.js"></script>
+    <!--  Paper Dashboard core CSS    -->
+    <!-- <link href="admin/assets/css/paper-dashboard.css" rel="stylesheet"/> -->
+    <link href="admin/assets/css/themify-icons.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="preloader.css">
+
+
+    <style>
+        html { height:100%; margin:0; padding:0;}
+        body { height:100%; overflow:hidden; margin:0; padding:0; font-family:Arial, Helvetica, sans-serif; font-size:16px; color:#FFFFFF; background-color:#000000; }
+        #krpanoSWFObject pre { background: none;}
+        @media only screen and (max-device-width:768px){
+
+            body.modal-open {
+                overflow: hidden;
+                /*position: fixed;*/
+            }
+        }
+
+        body.viewport-lg {
+            position: absolute;
+        }
+        .remote {
+            position: absolute;
+            left: -99999px;
+            top: -99999px;
+            z-index: -9999!important;
+            font-size: 1px;
+        }
+        #access_keys input {
+            border: 0;
+            margin: 0 20px 20px 20px;
+            border-radius: 10px;
+            background: #f1f1f1;
+            padding: 10px;
+            width: 340px;
+            font-size: 1.25em;
+        }
+        #access_keys button {
+            cursor: pointer;
+            color: #fff;
+            border: 0;
+            background-color: #28a745;
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 2rem;
+            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        #access_keys button:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+            text-decoration: none;
+        }
+        #access_keys .moreInfo {
+            margin-top: 0;
+            text-align:left;
+            padding: 0 20px;
+            font-size: 0.8em;
+        }
+        #access_keys #invalidToken {
+            color: red;
+            font-weight: bold;
+            display: none;
+        }
+        #access_keys footer, #access_keys .box-info {
+            text-align: center;
+        }
+        #privacy {
+            width: calc(100vw - 120px);
+            height: 100%;
+            margin: auto;
+            color: #000000;
+        }
+        .privacyContainer {
+            padding-top:60px;
+            margin-bottom: 60px;
+
+        }
+        .privacyBody {
+            background: #ffffff;
+            float: none;
+            margin: 0 auto;
+            -moz-box-shadow: 0 0 4px 1px rgba(0, 0, 0, .05);
+            -webkit-box-shadow: 0 0 4px 1px rgba(0, 0, 0, .05);
+            -o-box-shadow: 0 0 4px 1px rgba(0, 0, 0, .05);
+            -ms-box-shadow: 0 0 4px 1px rgba(0, 0, 0, .05);
+            box-shadow: 0 0 4px 1px rgba(0, 0, 0, .05);
+            border: 1px solid #ccc;
+        }
+        .privacyText {
+            padding:20px;
+            color: #000000;
+            overflow: auto;
+            max-height: calc(100vh - 246px);
+        }
+        .privacyText p {
+            margin:0;
+        }
+        .privacyBody > footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+        }
+        .privacyBody > footer > .btn {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: 'Lato', Verdana, Meiryo, "微軟正黑體", "Microsoft JhengHei";
+            font-size: 14px;
+            overflow: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .show {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 50%;
+            text-align: right;
+            z-index: 1;
+        }
+
+        .show iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, .5);
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .modal iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .modal.open {
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 1300px;
+            height: 80%;
+            /* padding: 40px; */
+            background-color: #fff;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            z-index: 201;
+        }
+
+        @media (max-width: 1400px) {
+            .modal.open {
+                width: 75%;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .modal.open {
+                width: 85%;
+            }
+        }
+
+        .modal__bg.open {
+            content: "";
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            display: block;
+            z-index: 200;
+        }
+
+        .modal__content {
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .modal.open .modal__content {
+            margin-top: 0;
+        }
+
+        #closeElement {
+            z-index: 202;
+            width: 55px;
+            height: 55px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            display: block;
+            background: url(https://vr.gtmc.app/gtmc_company/skin/templates/cross.svg) center center no-repeat rgb(0, 0, 0);
+            border-radius: 50%;
+            padding: 5px;
+            background-size: 35px;
+            top: -31px;
+            right: -24px;
+            cursor: pointer;
+            transition: background-color 0.5s ease;
+        }
+        
+        .close {
+            opacity: 8;
+        }
+
+        @media (max-width: 600px) {
+            #closeElement {
+                width: 45px;
+                height: 45px;
+                background-size: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #closeElement {
+                top: -30px;
+                right: -16px;
+            }
+        }
+
+        #closeElement:hover {
+            background-color: #666;
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+         /*側選單*/
+        .menu-wrap {
+            background-color: #111;
+            padding: 40px 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: fixed;
+            width: 320px;
+            top: 0;
+            right: -320px;
+            bottom: 0;
+            z-index: 99;
+        }
+        .menu-wrap.click::before {
+            display: block;
+        }
+        .menu-overlay {
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+        }
+        .menu-toggle {
+            display: none;
+        }
+        .menu-toggle:checked + .menu-wrap {
+            right: 0;
+        }
+        .menu-toggle:checked ~ .menu-overlay {
+            display: block;
+        }
+
+        .menu-wrap iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* bottom: 50px; */
+            width: 100%;
+            height: 100%;
+            /*padding-bottom: 50px;*/
+            border-width: 0;
+        }
+        .slide-menu-quickclose{
+            position: absolute;
+            top: 0px;
+            left: 10px;
+            z-index: 1;
+        }
+        .slide-menu-quickclose button{
+            background: grey;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            display: block; 
+            font-size: 26px;
+            border: 0;
+            padding: 0;
+            cursor: pointer;  
+        }
+        .slide-menu-close{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+        .slide-menu-close button{
+            background: red;
+            color: #fff;
+            height: 50px; 
+            width: 100%;
+            display: block; 
+            font-size: 16px;
+            border: 0;  
+            cursor: pointer;   
+        }
+        .slide-menu-close button:hover,
+        .slide-menu-close button:focus,
+        .slide-menu-quickclose button:hover,
+        .slide-menu-quickclose button:after{
+            outline: none;
+            border: 0;
+        }
+    </style>
+    <!-- for Facebook -->
+    <meta property="og:updated_time" content="1782368485" />
+        <meta property="og:url" content="https://vr.gtmc.app/victortaichung_tw/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="台中精機VR展覽館" />
+    <meta property="og:description" content="" />
+    <meta property="og:site_name" content="台中精機VR展覽館"/>
+    <meta property="og:image" content="https://vr.gtmc.app/victortaichung_tw/panos/p29.tiles/fb_thumb.jpg?nc=6a3cc8e5e6c14" /><meta property="og:image:secure_url" content="https://vr.gtmc.app/victortaichung_tw/panos/p29.tiles/fb_thumb.jpg?nc=6a3cc8e5e6c14" />    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="620" />
+    <meta property="og:image:alt" content="thumbnail" />
+    <meta property="og:image:type" content="image/jpeg" />
+
+    <!-- for Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="台中精機VR展覽館" />
+    <meta name="twitter:description" content="" />
+    <meta name="twitter:image" content="https://vr.gtmc.app/victortaichung_tw/panos/p29.tiles/fb_thumb.jpg?nc=6a3cc8e5e6c14" />
+
+        </head>
+
+
+<body>
+
+<script src="tour.js?nc=5.0.0"></script>
+<div id="pano" style="width:100%;height:100%;" data-nosnippet>
+    <script>
+        if (navigator.msPointerEnabled)
+        {
+          navigator.__defineGetter__("msPointerEnabled", function(){return false;});
+          navigator.__defineGetter__("pointerEnabled", function(){return true;});
+        }
+        // navigator.pointerEnabled = navigator.maxTouchPoints > 0;               // Edge 17 touch support workaround
+        document.documentElement.ontouchstart = navigator.maxTouchPoints > 0;  // Chrome 70 touch support workaround
+                embedpano({xml:"tour.xml?nc=6a3cc8e5e6cb1", target:"pano", html5:(navigator.userAgent.toLowerCase().indexOf("googlebot") >= 0 ? "always" : "auto"), initvars:{templates_name:'rubee',mydata:'blank|scene_p29|en|0|0|90|nv|false'}, mobilescale:1.0, passQueryParameters:true,onready:krpano_onready_callback});
+        
+        function krpano_onready_callback(krpano_interface) {krpano = krpano_interface};
+    </script>
+</div>
+    <div id="loadinginfo"></div>
+
+<article class="remote">
+    <h1>入口</h1>
+
+</article>
+<aside class="remote">
+    <ul>
+            </ul>
+</aside>
+<nav class="remote">
+    <ul>
+        <li><a href="scene_29_en.html">入口</a></li>
+<li><a href="scene_31_en.html">形象牆</a></li>
+<li><a href="scene_32_en.html">CNC車床館</a></li>
+<li><a href="scene_33_en.html">CNC車床館</a></li>
+<li><a href="scene_34_en.html">Vturn-Q200T3Y3 多軸複合加工機</a></li>
+<li><a href="scene_35_en.html">Vturn-S26/60CM</a></li>
+<li><a href="scene_36_en.html">Vturn-S36/85</a></li>
+<li><a href="scene_37_en.html">Vturn-26/60E</a></li>
+<li><a href="scene_38_en.html">Vturn-40/220YCM</a></li>
+<li><a href="scene_39_en.html">Vturn-NP20</a></li>
+<li><a href="scene_40_en.html">Vturn-A26/85CV</a></li>
+<li><a href="scene_41_en.html">Vturn-A26/130YSCM</a></li>
+<li><a href="scene_42_en.html">Vturn-V1000CM</a></li>
+<li><a href="scene_43_en.html">Vturn-45/425CM</a></li>
+<li><a href="scene_44_en.html">形象牆</a></li>
+<li><a href="scene_45_en.html">綜合加工中心機館</a></li>
+<li><a href="scene_46_en.html">加工中心機館</a></li>
+<li><a href="scene_47_en.html">Vcenter-AX630
+  五軸加工機</a></li>
+<li><a href="scene_48_en.html">Vcenter-AX800
+  五軸加工機</a></li>
+<li><a href="scene_49_en.html">Vcenter-205</a></li>
+<li><a href="scene_50_en.html">Vcenter-G135</a></li>
+<li><a href="scene_51_en.html">Vcenter-F106</a></li>
+<li><a href="scene_52_en.html">Vcenter-P76APC</a></li>
+<li><a href="scene_53_en.html">Vcenter-P136</a></li>
+<li><a href="scene_54_en.html">Vcenter-H630HS</a></li>
+<li><a href="scene_55_en.html">Vcenter-H630HD</a></li>
+<li><a href="scene_56_en.html">Vcenter-H400</a></li>
+<li><a href="scene_57_en.html">形象牆</a></li>
+<li><a href="scene_58_en.html">複合加工機館</a></li>
+<li><a href="scene_59_en.html">VMT-X200</a></li>
+<li><a href="scene_60_en.html">VMT-X400</a></li>
+<li><a href="scene_61_en.html">形象牆</a></li>
+<li><a href="scene_62_en.html">塑膠射出成型機館</a></li>
+<li><a href="scene_63_en.html">VsP-260ES</a></li>
+<li><a href="scene_64_en.html">Ve-140ES</a></li>
+<li><a href="scene_65_en.html">VaⅢ-180 全電式射出成型機</a></li>
+<li><a href="scene_66_en.html">VaⅢ-250 全電式射出成型機</a></li>
+<li><a href="scene_67_en.html">VR-350ES</a></li>
+<li><a href="scene_68_en.html">VR-850ES</a></li>
+<li><a href="scene_69_en.html">VsP-150ES</a></li>
+<li><a href="scene_70_en.html">形象牆</a></li>
+<li><a href="scene_71_en.html">自動化機械館</a></li>
+<li><a href="scene_72_en.html">單機自動化加工線</a></li>
+<li><a href="scene_73_en.html">雙機自動化加工線</a></li>
+<li><a href="scene_74_en.html">多機自動化加工線</a></li>
+<li><a href="scene_75_en.html">多機自動化加工線-俯視</a></li>
+<li><a href="scene_76_en.html">形象牆</a></li>
+<li><a href="scene_77_en.html">鋁輪圈專用機館</a></li>
+<li><a href="scene_78_en.html">鋁輪圈展示</a></li>
+<li><a href="scene_79_en.html">Vcenter-22W</a></li>
+<li><a href="scene_80_en.html">Vturn-22W</a></li>
+<li><a href="scene_81_en.html">Vturn-V22W</a></li>
+<li><a href="scene_82_en.html">形象牆</a></li>
+    </ul>
+</nav>
+
+<div id="vrModal" class="modal fade bs-example-modal-lg remote" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="z-index:2000000">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="mdi mdi-window-close"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal" style="overflow: unset !important">
+    <a class="close" id="closeElement"></a>
+    <div class="modal__content" style="-moz-border-radius: 10px;">
+        <iframe id="customer_iframe" src="" frameborder="0"></iframe>
+    </div>
+</div>
+
+<div class="slide-menu">
+  <input id="slide-menu-right" class="menu-toggle" type="checkbox" />
+  <div class="menu-wrap">
+    <div id="slide-menu-quickclose" class="slide-menu-quickclose">
+        <button>&times;</button>  
+    </div>    
+    <iframe id="slide_iframe" src="">
+    </iframe>
+    <!-- <div class="slide-menu-close">
+        <button>Close</button>        
+    </div> -->
+  </div>
+</div>
+
+<div id="modal_bg" class="modal__bg">
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#vrModal').on('hide.bs.modal', function (e) {
+            $('#vrModal').addClass('remote');
+            var krpano = document.getElementById("krpanoSWFObject");
+            krpano.set('html_popup_is_open', false);
+        });
+        $('#vrModal').on('show.bs.modal', function (e) {
+            $('#vrModal').removeClass('remote');
+        });
+        $('#cookieAccept').click(function(e){
+            e.preventDefault();
+            var CookieDate = new Date;
+            CookieDate.setFullYear(CookieDate.getFullYear() + 1);
+            document.cookie = 'cms4vr-privacy-fe=1; expires=' + CookieDate.toGMTString() + ';';
+            // document.cookie = 'cms4vr-privacy-fe=1; expires=' + CookieDate.toGMTString() + '; SameSite=None; Secure';
+            window.location.reload();
+        });
+        $('#cookieReject').click(function(e){
+            e.preventDefault();
+            document.cookie = 'cms4vr-privacy-fe=0';
+            window.location.reload();
+        });
+        $('#accessKeyCheck').click(function(e){
+            e.preventDefault();
+            $('#invalidToken').hide();
+            $.ajax({
+                type: "POST",
+                url: 'admin/?c=settings&action=checkAccessKeyAjax',
+                dataType: "json",
+                data: {
+                    access_key: $('#access_key').val(),
+                },
+                success: function (response) {
+                    if (response.success) {
+                        window.location.reload();
+                    } else {
+                        $('#invalidToken').show(200);
+                    }
+                },
+            });
+        });
+        // 關閉slide bar
+        var origin_x,origin_y;
+        $(document).mouseup(function(e){
+            var _con = $('.slide-menu');
+            if(!_con.is(e.target) && _con.has(e.target).length === 0 && Math.abs(origin_x - e.offsetX) < 2 && Math.abs(origin_y - e.offsetY) < 2 && !document.getElementById('modal').classList.contains("open")){ 
+                  if(document.getElementById('slide-menu-right').checked) {
+                    document.getElementById('slide_iframe').src = ""
+                    document.getElementById('slide-menu-right').checked = !document.getElementById('slide-menu-right').checked;
+                    window.parent.postMessage({event:'close' ,type:'pop_slide_bar_outside'}, '*')
+                  }
+            }
+          });
+
+        $(document).mousedown(function(e){
+            var _con = $('.slide-menu');  
+            if(!_con.is(e.target) && _con.has(e.target).length === 0){ 
+                origin_x = e.offsetX
+                origin_y = e.offsetY
+            }
+        });
+
+        $('#slide-menu-quickclose').click(function(e){
+             document.getElementById('slide_iframe').src = "";
+             document.getElementById('slide-menu-right').checked = false;
+             window.parent.postMessage({event:'close' ,type:'pop_slide_bar_outside'}, '*')
+        });
+
+        [closeElement, modal_bg].forEach(elm => {
+            elm.addEventListener('click', function () {
+                document.getElementById('customer_iframe').src = ""
+                modal.classList.remove('open');
+                modal_bg.classList.remove('open');
+                closeElement.classList.add('hide');
+            })
+        })
+
+        document.getElementById('modal').classList.remove('open');
+        window.addEventListener('message', function (e) {
+            if(e.data.event && e.data.event === "open") {
+                if(e.data.type && e.data.type === "pop_slide_bar") {
+                    if(document.getElementById('slide-menu-right').checked) {
+                        document.getElementById('slide_iframe').src = ""
+                        document.getElementById('slide-menu-right').checked = !document.getElementById('slide-menu-right').checked;
+                    }
+                    setTimeout(function(){
+                        document.getElementById('slide_iframe').src = e.data.url;
+                        document.getElementById('slide-menu-right').checked = !document.getElementById('slide-menu-right').checked;
+                    },300)
+                    window.parent.postMessage({event:'open' ,type:'pop_slide_bar_outside'}, '*')
+                    gtag('event', 'popup', {
+                        'event_category': 'SIDE',
+                        'event_label': e.data.url
+                    }); 
+                }
+                else if(e.data.type == undefined){
+                    document.getElementById('modal').classList.add('open');
+                    document.getElementById('modal_bg').classList.add('open');
+                    document.getElementById('closeElement').classList.remove('hide');
+                    document.getElementById('customer_iframe').src = e.data.url;
+                    gtag('event', 'popup', {
+                        'event_category': 'POI',
+                        'event_label': e.data.url
+                    }); 
+                }
+            } else if(e.data.event && e.data.event === "opened_blank") {
+                window.open(e.data.url, '_blank');
+                gtag('event', 'external_link', {
+                    'event_category': 'POI',
+                    'event_label': e.data.url
+                }); 
+            }
+        }, false);
+    });
+    function closeSlide () {
+        if(document.getElementById('slide-menu-right').checked) {
+            setTimeout(function() {
+                document.getElementById('slide_iframe').src = ""
+                document.getElementById('slide-menu-right').checked = false;
+            }, 700);
+        }
+    }
+</script>
+</body>
+</html>

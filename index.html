@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0c1220">
+  <title>鋁台精機 · VR 線上展間</title>
+  <meta name="description" content="鋁台精機壓鑄機 360° VR 線上展間 · 沉浸式環景體驗">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.14.1/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.14.1/index.css">
+  <link rel="stylesheet" href="./css/lobby.css?v=machine24">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three/build/three.module.js",
+      "@photo-sphere-viewer/core": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.14.1/index.module.js",
+      "@photo-sphere-viewer/markers-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.14.1/index.module.js"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <div id="viewer" aria-label="VR 360 環景檢視器"></div>
+
+  <div id="lb-loader" class="lb-loader" role="status" aria-live="polite">
+    <div>
+      <div class="lb-loader__ring" aria-hidden="true"></div>
+      <p class="lb-loader__title">鋁台精機 · VR 展間</p>
+      <p class="lb-loader__sub">正在載入場景資源…</p>
+    </div>
+  </div>
+
+  <div id="lb-fade" class="lb-fade" aria-hidden="true"></div>
+
+  <div class="lb-ui">
+    <header class="lb-brand">
+      <p class="lb-brand__title">鋁台精機</p>
+      <p id="lb-scene-name" class="lb-brand__scene"></p>
+    </header>
+
+
+    <div class="lb-radar" aria-label="方位指示">
+      <svg class="lb-radar__svg" viewBox="0 0 80 80" aria-hidden="true">
+        <circle class="lb-radar__disc" cx="40" cy="40" r="36"></circle>
+        <circle class="lb-radar__grid" cx="40" cy="40" r="24"></circle>
+        <circle class="lb-radar__grid" cx="40" cy="40" r="12"></circle>
+        <line class="lb-radar__grid" x1="40" y1="4" x2="40" y2="76"></line>
+        <line class="lb-radar__grid" x1="4" y1="40" x2="76" y2="40"></line>
+        <g id="lb-radar-beam" class="lb-radar__beam">
+          <path class="lb-radar__sector" d="M40 40 L40 8 A32 32 0 0 1 62 22 Z"></path>
+        </g>
+        <circle class="lb-radar__dot" cx="40" cy="40" r="2.5"></circle>
+      </svg>
+      <span class="lb-radar__label">方位</span>
+    </div>
+
+    <div class="lb-dock">
+      <button type="button" id="lb-reset">重設視角</button>
+      <span class="lb-dock__hint">拖曳環景 · 滾輪縮放 · 點擊機台指標看介紹</span>
+    </div>
+
+    <nav id="lb-thumbs" class="lb-thumbs" aria-label="場景選單"></nav>
+    <!-- 機台選單：切換目前展區內的各機台 -->
+    <nav id="lb-machine-bar" class="lb-machine-bar" aria-label="機台選單"></nav>
+  </div>
+
+  <!-- 機台介紹側欄 -->
+  <aside id="lb-product-panel" class="lb-product-panel" aria-hidden="true" aria-label="產品介紹">
+    <div class="lb-product-panel__inner">
+      <button type="button" id="lb-panel-close" class="lb-product-panel__close" aria-label="關閉">×</button>
+      <header class="lb-product-panel__head">
+        <h2 id="lb-panel-title" class="lb-product-panel__title">DC-1000</h2>
+        <p id="lb-panel-sub" class="lb-product-panel__sub">冷室鑄造機</p>
+      </header>
+      <div class="lb-gallery">
+        <div id="lb-panel-thumbs" class="lb-gallery__thumbs" aria-label="機台照片縮圖"></div>
+        <button type="button" id="lb-panel-main" class="lb-gallery__main" aria-label="點擊放大機台照片">
+          <img id="lb-panel-main-img" class="lb-gallery__img" alt="" decoding="async">
+          <span class="lb-gallery__zoom" aria-hidden="true">＋</span>
+        </button>
+      </div>
+      <section class="lb-product-panel__section">
+        <h3 class="lb-product-panel__label">產品介紹</h3>
+        <p id="lb-panel-intro" class="lb-product-panel__intro"></p>
+      </section>
+      <nav id="lb-panel-menu" class="lb-panel-menu" aria-label="產品選單"></nav>
+    </div>
+  </aside>
+
+  <!-- 機台照片放大燈箱 -->
+  <div id="lb-lightbox" class="lb-lightbox" aria-hidden="true" role="dialog" aria-label="機台照片">
+    <button type="button" id="lb-lightbox-close" class="lb-lightbox__close" aria-label="關閉">×</button>
+    <img id="lb-lightbox-img" class="lb-lightbox__img" alt="">
+  </div>
+
+  <script type="module" src="./js/lobby.js?v=machine24"></script>
+</body>
+</html>

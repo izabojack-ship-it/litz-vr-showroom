@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>VR展覽館</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="x-ua-compatible" content="IE=edge" />
+<style>
+[x-cloak] { display: none !important; }
+
+html{
+    height: 100%;
+}
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Lato', Verdana, Meiryo, "微軟正黑體", "Microsoft JhengHei";
+    font-size: 14px;
+    overflow: hidden;
+    height: 100%;
+}
+a{ 
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
+.show {
+    position: relative;
+    width: 100%;
+    text-align:right;
+    height: 100%;
+}
+
+iframe {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+<link rel="stylesheet" href="css/main.css?t=20211221">
+<link rel="stylesheet" href="css/icon-font.css?t=20211221">
+<script src="js/main.js?t=20211130"></script>
+<script defer src="https://unpkg.com/alpinejs@3.10.3/dist/cdn.min.js"></script>
+</head>
+<body x-data="{tutorialOpen: false}">
+<!-- 轉向提示 -->
+<div id="mobile-section" class="mobile-section">
+    <div class="mobile-landspace-message">
+        <span class="rotate-right-icon">
+            <img src="images/landscape_mode_icon.png">
+        </span>
+        <div>為了提供最好的使用體驗 <br> 請您將螢幕旋轉為「橫向」</div>
+        <br>
+        <button id="continue" class="btn btn-light continue-btn">略過</button>
+    </div>
+</div>
+
+<!-- android 手機版因權限關係無法直接全螢幕，需有此畫面透過點擊事件來顯示全螢幕-->
+<div class="fullscreenmode">
+    <div class="mobile-landspace-message">
+        <h5>為了提供最好的使用體驗，將使用全螢幕模式</h5>
+        <button id="fullscreen" class="btn btn-light continue-btn">略過</button>
+    </div>
+</div>
+
+<div class="show">
+    <span id="lang-span" class="lang-span" style="right:50px;position: absolute;z-index: 1;top: 10px;"><font color="#fff"><a href="../showroom/en.html"><font color="#fff">English</font></a> │ <a href="../showroom/tw.html"><font color="#fff">中文</font></a></font></span>  
+    <iframe src="https://vr.gtmc.app/victortaichung_tw/" width="100%" height="800" frameborder="0" scrolling="no" allow='xr-spatial-tracking'></iframe>
+</div>
+<!--VirtualShowroom 操作指示-->
+<!-- <div class="modal" id="operate-modal">
+    <div class="operate-modal-content" id="operate-modal-content">
+        <div class="modal-body">
+            <span id="modal-close" class="modal-close">&times;</span>
+            <div class="operate-modal-use">
+                <div class="operate-modal-wrap">
+                    <div class="operate-modal-img">
+                        <img src="images/guide-cursor.svg">
+                    </div>
+                    <div class="operate-modal-info">
+                        請點擊按住滑鼠左鍵不動，並上下左右移動滑鼠，瀏覽虛擬展的不同視角。
+                    </div>
+                    <div class="operate-modal-btns">
+                        <div class="operate-modal-btn-prev-wrap">
+
+                        </div>
+                        <div class="operate-modal-btns-pagenation-wrap">
+                            <div class="operate-modal-btns-pagenation">
+                            </div>
+                        </div>
+                        <div class="operate-modal-btn-next-wrap">
+                            <div class="operate-modal-btn-next"><img src="images/arrow-next.svg">下一步</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="operate-modal-use">
+                <div class="operate-modal-wrap">
+                    <div class="operate-modal-img2">
+                        <i class="icon-mdi-map-marker-radius"></i>
+                        <p>現在所在位置</p>
+                    </div>
+                    <div class="operate-modal-info">
+                        <div class="operate-modal-info-wrap ">
+                            <img src="images/floor-plan-tw.png">
+                            <div>可點擊放大平面地圖</div>
+                        </div>
+                    </div>
+                    <div class="operate-modal-btns">
+                        <div class="operate-modal-btn-prev-wrap">
+                            <div class="operate-modal-btn-prev">上一步 <img src="images/arrow-prev.svg">
+                            </div>
+                        </div>
+                        <div class="operate-modal-btns-pagenation-wrap">
+                            <div class="operate-modal-btns-pagenation">
+                            </div>
+                        </div>
+                        <div class="operate-modal-btn-next-wrap">
+                            <div class="operate-modal-btn-next"><img src="images/arrow-next.svg">下一步</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="operate-modal-use">
+                <div class="operate-modal-wrap">
+                    <div class="operate-modal-img">
+                        <div class="operate-modal-icons-wrap">
+                            <div class="row row-cols-3 row-cols-md-5">
+                                <div class="col">
+                                    <div class="operate-modal-icon">
+                                        <img src="images/guide-path_2.svg">
+                                    </div>
+                                    <div>點擊往前進</div>
+                                </div>
+                                <div class="col">
+                                    <div class="operate-modal-icon">
+                                        <img src="images/guide-path.svg">
+                                    </div>
+                                    <div>點擊往前進</div>
+                                </div>
+                                <div class="col">
+                                    <div class="operate-modal-icon"><img src="images/guide-view.svg"></div>
+                                    <div>近距離觀看產品</div>
+                                </div>
+                                <div class="col">
+                                    <div class="operate-modal-icon"><img src="images/guide-click.svg">
+                                    </div>
+                                    <div>展示更多資訊</div>
+                                </div> -->
+                                <!--<div class="col">
+                                  <div class="operate-modal-icon"><img src="images/guide-video.svg"></div>
+                                  <div>Video Playback</div>
+                              </div> -->
+                            <!-- </div>
+                        </div>
+                    </div>
+                    <div class="operate-modal-info">
+                    透過點擊以上圖示，進入不同展覽區，或觀看完整虛擬展介紹。
+                    </div>
+                    <div class="operate-modal-btns">
+                        <div class="operate-modal-btn-prev-wrap">
+                            <div class="operate-modal-btn-prev">上一步 <img src="images/arrow-prev.svg">
+                            </div>
+                        </div>
+                        <div class="operate-modal-btns-pagenation-wrap">
+                            <div class="operate-modal-btns-pagenation">
+                            </div>
+                        </div>
+                        <div class="operate-modal-btn-next-wrap">
+                            <div class="operate-modal-btn-next"><img src="images/arrow-next.svg">下一步</div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- <div class="operate-modal-use">
+                    <div class="operate-modal-wrap">
+                        <div class="operate-modal-img">
+                            <div class="operate-modal-lan">English | 中文</div>
+                        </div>
+                        <div class="operate-modal-info">
+                            Switch language in the upper right corner.
+                        </div>
+
+
+                        <div class="operate-modal-btns">
+                            <div class="operate-modal-btn-prev-wrap">
+                                <div class="operate-modal-btn-prev">上一步 <img src="images/arrow-prev.svg">
+                                </div>
+                            </div>
+                            <div class="operate-modal-btns-pagenation-wrap">
+                                <div class="operate-modal-btns-pagenation">
+                                </div>
+                            </div>
+                            <div class="operate-modal-btn-next-wrap">
+                                <div class="operate-modal-btn-next"><img src="images/arrow-next.svg">下一步</div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div> -->
+            <!-- <div class="operate-modal-use">
+                <div class="operate-modal-wrap">
+                    <div class="operate-modal-img2">
+                        <img src="images/exhibition_ex-tw.png">
+                        <p>下方支援切換館別</p>
+                    </div>
+                    <div class="operate-modal-info">
+                        <div class="operate-modal-info-list-wrap">
+                            <div class="operate-modal-info__item">
+                                <span>1</span>點擊收合導覽面板
+                            </div>
+                            <div class="operate-modal-info__item">
+                                <span>2</span>點擊展館名稱切換不同館別
+                            </div>
+                            <div class="operate-modal-info__item">
+                                <span>3</span>點擊跳至指定展示區
+                            </div>
+                        </div>
+                    </div>
+                    <div class="operate-modal-btns">
+                        <div class="operate-modal-btn-prev-wrap">
+                            <div class="operate-modal-btn-prev">上一步 <img src="images/arrow-prev.svg">
+                            </div>
+                        </div>
+                        <div class="operate-modal-btns-pagenation-wrap">
+                            <div class="operate-modal-btns-pagenation">
+                            </div>
+                        </div>
+                        <div class="operate-modal-btn-next-wrap" id="operate-modal-btn-close">
+                            <div class="operate-modal-btn-next"><img src="images/arrow-next.svg">關閉
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<!--產品介紹前導頁-->
+<!--    <div id="product-guide-modal" class="modal">-->
+<!--        <div class="product-guide-modal-content" >-->
+<!--            <a class="pop-modal-close" id="pop-modal-close"></a>-->
+<!--            <iframe src="https://sistercnc.urb2b.com/zh-tw/leading-page/tw"></iframe>-->
+<!--        </div>-->
+<!--    </div>-->
+<!-- 操作指示_2 -->
+<div id="user-guide-modal" class="modal" x-cloak x-show="tutorialOpen" x-transition>
+    <div class="operate-modal-content2">
+        <img src="images/tw.png?1011" class="pc-img">
+        <img src="images/tw_rwd.png?1011" class="rwd-img">
+    </div>
+</div>
+<div class="user-guide">
+    <!-- 打開時，要有 open class，關閉的時候不需要 -->
+    <a class="btn" x-on:click="tutorialOpen=!tutorialOpen" :class="tutorialOpen?'open':''">操作說明 <img src="images/guide-click.svg"></a>
+</div>
+</body>
+
+</html>
