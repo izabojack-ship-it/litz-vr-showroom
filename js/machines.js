@@ -9,8 +9,11 @@ const PRODUCT_MENU = [
 const COLD_INTRO = '冷式壓鑄機適合中小型至大型精密鑄件，兼具節能與穩定射出性能。';
 const COLD2_INTRO = '第二展區展示冷式壓鑄產線配置，鎖模力與循環效率均衡，適合量產應用。';
 
-/* 機台照片放於 media/machines/；photos 為 { full, thumb } 陣列（可多張） */
+/* 機台照片放於 media/machines/；photos 為 { full, thumb } 陣列（可多張）
+ * 真人介紹影片放於 media/presenter/，檔名與機台型號一致，例如 ZDC-1100TCM.mp4
+ */
 const photo = (base) => ({ full: `${base}.jpg`, thumb: `${base}_thumb.jpg` });
+const presenterVideo = (base) => `${base}.mp4`;
 
 /*
  * 指標(position)置於機台正前方地面(pitch -32)；
@@ -27,6 +30,7 @@ export const SCENE_MACHINES = {
       focus: { yaw: '-100deg', pitch: '3deg', zoom: 50 },
       intro: COLD_INTRO,
       photos: [photo('ZDC-420TCSA')],
+      presenterVideo: presenterVideo('ZDC-420TCSA'),
       menu: PRODUCT_MENU,
     },
     {
@@ -37,6 +41,7 @@ export const SCENE_MACHINES = {
       focus: { yaw: '3deg', pitch: '3deg', zoom: 51 },
       intro: COLD_INTRO,
       photos: [photo('ZDC-250TCSA')],
+      presenterVideo: presenterVideo('ZDC-250TCSA'),
       menu: PRODUCT_MENU,
     },
     {
@@ -47,6 +52,7 @@ export const SCENE_MACHINES = {
       focus: { yaw: '73deg', pitch: '3deg', zoom: 50 },
       intro: COLD_INTRO,
       photos: [photo('ZDC-180TCSA')],
+      presenterVideo: presenterVideo('ZDC-180TCSA'),
       menu: PRODUCT_MENU,
     },
   ],
@@ -59,6 +65,7 @@ export const SCENE_MACHINES = {
       focus: { yaw: '-100deg', pitch: '3deg', zoom: 50 },
       intro: COLD2_INTRO,
       photos: [photo('ZDC-560TCSA')],
+      presenterVideo: presenterVideo('ZDC-560TCSA'),
       menu: PRODUCT_MENU,
     },
     {
@@ -69,6 +76,7 @@ export const SCENE_MACHINES = {
       focus: { yaw: '0deg', pitch: '3deg', zoom: 51 },
       intro: COLD2_INTRO,
       photos: [photo('ZDC-1100TCM')],
+      presenterVideo: presenterVideo('ZDC-1100TCM'),
       menu: PRODUCT_MENU,
     },
     {
@@ -79,6 +87,7 @@ export const SCENE_MACHINES = {
       focus: { yaw: '73deg', pitch: '3deg', zoom: 50 },
       intro: COLD2_INTRO,
       photos: [photo('ZDC-900TCSA')],
+      presenterVideo: presenterVideo('ZDC-900TCSA'),
       menu: PRODUCT_MENU,
     },
   ],
@@ -92,6 +101,7 @@ export const SCENE_MACHINES = {
       focus: { yaw: '-2deg', pitch: '3deg', zoom: 51 },
       intro: '熱式壓鑄機適合鋅、鎂等低熔點合金，射出速度快、適合薄壁複雜件。',
       photos: [photo('ZHC-130TCS')],
+      presenterVideo: presenterVideo('ZHC-130TCS'),
       menu: PRODUCT_MENU,
     },
   ],
@@ -105,6 +115,7 @@ export const SCENE_MACHINES = {
       focus: { yaw: '-100deg', pitch: '4deg', zoom: 50 },
       intro: '重力鑄造適合大型鋁件與結構件，設備穩定、維護簡便，廣泛用於汽機車與工業零件。',
       photos: [photo('PMC-1000A')],
+      presenterVideo: presenterVideo('PMC-1000A'),
       menu: PRODUCT_MENU,
     },
   ],

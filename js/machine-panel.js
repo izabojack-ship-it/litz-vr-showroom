@@ -19,7 +19,14 @@ const lightboxEl = document.getElementById('lb-lightbox');
 const lightboxImg = document.getElementById('lb-lightbox-img');
 const lightboxCloseEl = document.getElementById('lb-lightbox-close');
 
+const presenterBtnEl = document.getElementById('lb-panel-presenter');
+const presenterDockEl = document.getElementById('lb-presenter-dock');
+const presenterCloseEl = document.getElementById('lb-presenter-close');
+const presenterTitleEl = document.getElementById('lb-presenter-title');
+const presenterVideoEl = document.getElementById('lb-presenter-video');
+
 const PHOTO_BASE = './media/machines/';
+const PRESENTER_BASE = './media/presenter/';
 
 let sceneMachines = [];
 let activeMachineId = null;
@@ -56,11 +63,26 @@ export function initMachinePanel({ focusMachine }) {
     if (e.target === lightboxEl) closeLightbox();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightboxEl?.classList.contains('is-open')) closeLightbox();
+    if (e.key !== 'Escape') return;
+    if (presenterDockEl?.classList.contains('is-open')) {
+      closePresenterDock();
+      return;
+    }
+    if (lightboxEl?.classList.contains('is-open')) closeLightbox();
   });
 
   machineToggleEl?.addEventListener('click', () => {
     setMachineBarExpanded(!machineBarExpanded);
+  });
+
+  presenterBtnEl?.addEventListener('click', () => {
+    const machine = sceneMachines.find((m) => m.id === activeMachineId);
+    if (machine) openPresenterDock(machine);
+  });
+  presenterCloseEl?.addEventListener('click', closePresenterDock);
+  presenterVideoEl?.addEventListener('error', () => {
+    window.alert('此機台的真人介紹影片尚未上傳，請將影片放入 media/presenter/ 資料夾。');
+    closePresenterDock();
   });
 }
 
@@ -114,6 +136,49 @@ function closeLightbox() {
   lightboxEl?.setAttribute('aria-hidden', 'true');
 }
 
+function updatePresenterButton(machine) {
+  if (!presenterBtnEl) return;
+  const hasVideo = Boolean(machine?.presenterVideo);
+  presenterBtnEl.hidden = !hasVideo;
+}
+
+function hideProductPanel() {
+  panelEl?.classList.remove('is-open');
+  panelEl?.setAttribute('aria-hidden', 'true');
+}
+
+function openPresenterDock(machine) {
+  if (!presenterDockEl || !presenterVideoEl || !machine?.presenterVideo) return;
+
+  hideProductPanel();
+  activeMachineId = machine.id;
+
+  presenterTitleEl.textContent = machine.name;
+  presenterVideoEl.pause();
+  presenterVideoEl.src = PRESENTER_BASE + machine.presenterVideo;
+  presenterVideoEl.load();
+
+  presenterDockEl.classList.add('is-open');
+  presenterDockEl.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('lb-presenter-active');
+
+  if (onFocusMachine) onFocusMachine(machine);
+
+  presenterVideoEl.play().catch(() => {
+    /* 瀏覽器可能阻擋自動播放，使用者可手動按播放 */
+  });
+}
+
+function closePresenterDock() {
+  if (!presenterDockEl || !presenterVideoEl) return;
+  presenterVideoEl.pause();
+  presenterVideoEl.removeAttribute('src');
+  presenterVideoEl.load();
+  presenterDockEl.classList.remove('is-open');
+  presenterDockEl.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('lb-presenter-active');
+}
+
 export function setSceneMachines(machines) {
   sceneMachines = machines ?? [];
   buildMachineBar();
@@ -162,6 +227,7 @@ export function openMachinePanel(machineId, { animate = false } = {}) {
   panelIntroEl.textContent = machine.intro;
 
   renderGallery(machine);
+  updatePresenterButton(machine);
 
   panelMenuEl.innerHTML = machine.menu.map((item) => {
     const tag = item.href ? 'a' : 'button';
@@ -190,6 +256,7 @@ export function openMachinePanel(machineId, { animate = false } = {}) {
 
 export function closeMachinePanel() {
   activeMachineId = null;
+  closePresenterDock();
   panelEl?.classList.remove('is-open');
   panelEl?.setAttribute('aria-hidden', 'true');
   machineBarEl?.querySelectorAll('.lb-machine-card').forEach((c) => c.classList.remove('is-active'));
