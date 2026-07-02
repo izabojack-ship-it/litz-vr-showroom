@@ -239,20 +239,21 @@ html, body {
   bottom: calc(12px + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-safe));
 }
 
-/* 操作說明區（預設收起，點按鈕展開） */
+/* 操作說明區（預設收起，展開後內容在按鈕右側） */
 .lb-guide-dock {
   position: absolute;
-  left: 50%;
+  left: max(14px, env(safe-area-inset-left));
   bottom: calc(12px + var(--lb-safe));
-  transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   z-index: 2;
+  max-width: min(calc(100vw - 28px), 720px);
 }
 
 .lb-guide-toggle {
+  flex: 0 0 auto;
   padding: 7px 16px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.18);
@@ -265,6 +266,7 @@ html, body {
   cursor: pointer;
   box-shadow: var(--lb-shadow);
   transition: border-color 0.2s, background 0.2s, color 0.2s;
+  white-space: nowrap;
 }
 
 .lb-guide-toggle:hover {
@@ -279,30 +281,27 @@ html, body {
 }
 
 .lb-dock {
-  position: static;
-  transform: none;
+  flex: 1 1 auto;
+  min-width: 0;
   display: none;
   gap: 10px;
   align-items: center;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 14px;
   background: var(--lb-glass);
   backdrop-filter: blur(16px);
   border: 1px solid var(--lb-glass-border);
   box-shadow: var(--lb-shadow);
-  max-width: min(96vw, 640px);
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateX(-8px);
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .lb-guide-dock.is-expanded .lb-dock {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(0);
   pointer-events: auto;
 }
 
@@ -318,7 +317,13 @@ html, body {
 }
 
 .lb-dock button:hover { border-color: var(--lb-accent-soft); }
-.lb-dock__hint { font-size: 0.72rem; color: var(--lb-muted); white-space: nowrap; }
+.lb-dock__hint {
+  font-size: 0.72rem;
+  color: var(--lb-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* 場景切換淡入淡出 */
 .lb-fade {
@@ -1033,17 +1038,23 @@ html, body {
     --lb-stack-gap: 6px;
   }
 
+  .lb-guide-dock {
+    left: max(10px, env(safe-area-inset-left));
+    right: max(10px, env(safe-area-inset-right));
+    max-width: none;
+  }
+
   .lb-dock {
-    max-width: 94vw;
-    padding: 8px 12px;
+    flex-wrap: wrap;
+    padding: 7px 10px;
   }
 
   .lb-dock__hint {
-    width: 100%;
-    text-align: center;
     white-space: normal;
-    font-size: 0.68rem;
-    line-height: 1.45;
+    overflow: visible;
+    text-overflow: unset;
+    font-size: 0.66rem;
+    line-height: 1.4;
   }
 
   .lb-radar {
