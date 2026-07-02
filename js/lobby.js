@@ -3,8 +3,8 @@
  */
 import { Viewer, EquirectangularAdapter } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
-import { ZONES } from './zones.js?v=machine30';
-import { getMachinesForScene } from './machines.js?v=machine30';
+import { ZONES } from './zones.js?v=machine31';
+import { getMachinesForScene } from './machines.js?v=machine31';
 import {
   initMachinePanel,
   setMachineBarVisible,
@@ -13,7 +13,7 @@ import {
   closeMachinePanel,
   collapseMachineBar,
   buildMachineMarkers,
-} from './machine-panel.js?v=machine30';
+} from './machine-panel.js?v=machine31';
 
 const MEDIA_VERSION = 'machine19';
 // 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
@@ -59,6 +59,8 @@ const sceneNameEl = document.getElementById('lb-scene-name');
 const radarBeamEl = document.getElementById('lb-radar-beam');
 const zoneDockEl = document.getElementById('lb-zone-dock');
 const zoneToggleEl = document.getElementById('lb-zone-toggle');
+const guideDockEl = document.getElementById('lb-guide-dock');
+const guideToggleEl = document.getElementById('lb-guide-toggle');
 const thumbsEl = document.getElementById('lb-thumbs');
 const resetBtn = document.getElementById('lb-reset');
 
@@ -67,6 +69,7 @@ let markersPlugin = null;
 let currentSceneId = scenes[0]?.id;
 let isTransitioning = false;
 let zoneDockExpanded = false;
+let guideDockExpanded = false;
 
 function setZoneDockExpanded(expanded) {
   zoneDockExpanded = expanded;
@@ -76,6 +79,22 @@ function setZoneDockExpanded(expanded) {
 
 function collapseZoneDock() {
   setZoneDockExpanded(false);
+}
+
+function setGuideDockExpanded(expanded) {
+  guideDockExpanded = expanded;
+  guideDockEl?.classList.toggle('is-expanded', expanded);
+  guideToggleEl?.setAttribute('aria-expanded', String(expanded));
+}
+
+function collapseGuideDock() {
+  setGuideDockExpanded(false);
+}
+
+function initGuideDock() {
+  guideToggleEl?.addEventListener('click', () => {
+    setGuideDockExpanded(!guideDockExpanded);
+  });
 }
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -161,6 +180,7 @@ async function switchScene(targetId) {
   try {
     closeMachinePanel();
     collapseZoneDock();
+    collapseGuideDock();
 
     fadeEl?.classList.add('is-out');
     await wait(460);
@@ -251,9 +271,10 @@ function initViewer() {
   });
 
   viewer.container.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('.lb-machine-dock') || e.target.closest('.lb-zone-dock')) return;
+    if (e.target.closest('.lb-machine-dock') || e.target.closest('.lb-zone-dock') || e.target.closest('.lb-guide-dock')) return;
     collapseMachineBar();
     collapseZoneDock();
+    collapseGuideDock();
   });
 
   markersPlugin.addEventListener('select-marker', async ({ marker }) => {
@@ -279,6 +300,7 @@ function initViewer() {
 }
 
 initMachinePanel({ focusMachine });
+initGuideDock();
 initZoneDock();
 buildThumbnailMenu();
 resetBtn?.addEventListener('click', () => resetView());
