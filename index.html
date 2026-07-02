@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.14.1/index.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.14.1/index.css">
-  <link rel="stylesheet" href="./css/lobby.css?v=machine27">
+  <link rel="stylesheet" href="./css/lobby.css?v=machine28">
   <script type="importmap">
   {
     "imports": {
@@ -62,7 +62,12 @@
       <span class="lb-dock__hint">拖曳環景 · 滾輪縮放 · 點擊機台指標看介紹</span>
     </div>
 
-    <nav id="lb-thumbs" class="lb-thumbs" aria-label="場景選單"></nav>
+    <div id="lb-zone-dock" class="lb-zone-dock" aria-label="展區選單區">
+      <nav id="lb-thumbs" class="lb-thumbs" aria-label="場景選單"></nav>
+      <button type="button" id="lb-zone-toggle" class="lb-zone-toggle" aria-expanded="false" aria-controls="lb-thumbs">
+        展區
+      </button>
+    </div>
     <!-- 機台選單：預設收起，點「機台」展開 -->
     <div id="lb-machine-dock" class="lb-machine-dock" aria-label="機台選單區">
       <nav id="lb-machine-bar" class="lb-machine-bar" aria-label="機台選單"></nav>
@@ -120,6 +125,6 @@
     </div>
   </aside>
 
-  <script type="module" src="./js/lobby.js?v=machine27"></script>
+  <script type="module" src="./js/lobby.js?v=machine28"></script>
 </body>
 </html>

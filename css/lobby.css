@@ -277,13 +277,50 @@ html, body {
 .lb-fade.is-out { opacity: 1; }
 .lb-fade.is-in { opacity: 0; }
 
-/* 底部站點縮圖選單 */
-.lb-thumbs {
+/* 展區選單區（預設收起，點按鈕展開） */
+.lb-zone-dock {
   position: absolute;
   left: 50%;
   bottom: calc(12px + var(--lb-safe));
   transform: translateX(-50%);
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+}
+
+.lb-zone-toggle {
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(12px);
+  color: var(--lb-text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--lb-shadow);
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.lb-zone-toggle:hover {
+  border-color: var(--lb-accent-soft);
+  color: var(--lb-accent);
+}
+
+.lb-zone-dock.is-expanded .lb-zone-toggle {
+  border-color: var(--lb-accent);
+  color: var(--lb-accent);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* 底部站點縮圖選單 */
+.lb-thumbs {
+  position: static;
+  transform: none;
+  display: none;
   gap: 10px;
   padding: 8px 12px;
   border-radius: 14px;
@@ -293,6 +330,17 @@ html, body {
   box-shadow: var(--lb-shadow);
   max-width: min(96vw, 720px);
   overflow-x: auto;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.lb-zone-dock.is-expanded .lb-thumbs {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .lb-thumb {
@@ -419,7 +467,7 @@ html, body {
 .lb-machine-dock {
   position: absolute;
   left: 50%;
-  bottom: calc(68px + var(--lb-safe));
+  bottom: calc(54px + var(--lb-safe));
   transform: translateX(-50%);
   display: none;
   flex-direction: column;
@@ -926,7 +974,8 @@ html, body {
   .lb-dock { max-width: 94vw; flex-wrap: wrap; justify-content: center; bottom: calc(200px + var(--lb-safe)); }
   .lb-dock__hint { width: 100%; text-align: center; }
   .lb-radar { width: 70px; height: 70px; bottom: calc(268px + var(--lb-safe)); }
-  .lb-thumbs { bottom: calc(14px + var(--lb-safe)); max-width: 94vw; }
+  .lb-zone-dock { bottom: calc(14px + var(--lb-safe)); }
+  .lb-thumbs { max-width: 94vw; }
   .lb-thumb__img { width: 60px; height: 30px; }
   .lb-machine-dock { bottom: calc(148px + var(--lb-safe)); }
   .lb-presenter-dock {

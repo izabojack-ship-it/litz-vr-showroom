@@ -3,8 +3,8 @@
  */
 import { Viewer, EquirectangularAdapter } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
-import { ZONES } from './zones.js?v=machine27';
-import { getMachinesForScene } from './machines.js?v=machine27';
+import { ZONES } from './zones.js?v=machine28';
+import { getMachinesForScene } from './machines.js?v=machine28';
 import {
   initMachinePanel,
   setMachineBarVisible,
@@ -13,7 +13,7 @@ import {
   closeMachinePanel,
   collapseMachineBar,
   buildMachineMarkers,
-} from './machine-panel.js?v=machine27';
+} from './machine-panel.js?v=machine28';
 
 const MEDIA_VERSION = 'machine19';
 // 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
@@ -57,6 +57,8 @@ const loaderSubEl = loaderEl?.querySelector('.lb-loader__sub');
 const fadeEl = document.getElementById('lb-fade');
 const sceneNameEl = document.getElementById('lb-scene-name');
 const radarBeamEl = document.getElementById('lb-radar-beam');
+const zoneDockEl = document.getElementById('lb-zone-dock');
+const zoneToggleEl = document.getElementById('lb-zone-toggle');
 const thumbsEl = document.getElementById('lb-thumbs');
 const resetBtn = document.getElementById('lb-reset');
 
@@ -64,6 +66,17 @@ let viewer = null;
 let markersPlugin = null;
 let currentSceneId = scenes[0]?.id;
 let isTransitioning = false;
+let zoneDockExpanded = false;
+
+function setZoneDockExpanded(expanded) {
+  zoneDockExpanded = expanded;
+  zoneDockEl?.classList.toggle('is-expanded', expanded);
+  zoneToggleEl?.setAttribute('aria-expanded', String(expanded));
+}
+
+function collapseZoneDock() {
+  setZoneDockExpanded(false);
+}
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -111,6 +124,13 @@ function buildThumbnailMenu() {
     const btn = event.target.closest('.lb-thumb');
     if (!btn) return;
     switchScene(btn.dataset.sceneId);
+    collapseZoneDock();
+  });
+}
+
+function initZoneDock() {
+  zoneToggleEl?.addEventListener('click', () => {
+    setZoneDockExpanded(!zoneDockExpanded);
   });
 }
 
@@ -140,6 +160,7 @@ async function switchScene(targetId) {
 
   try {
     closeMachinePanel();
+    collapseZoneDock();
 
     fadeEl?.classList.add('is-out');
     await wait(460);
@@ -230,8 +251,9 @@ function initViewer() {
   });
 
   viewer.container.addEventListener('pointerdown', (e) => {
-    if (e.target.closest('.lb-machine-dock')) return;
+    if (e.target.closest('.lb-machine-dock') || e.target.closest('.lb-zone-dock')) return;
     collapseMachineBar();
+    collapseZoneDock();
   });
 
   markersPlugin.addEventListener('select-marker', async ({ marker }) => {
@@ -257,6 +279,7 @@ function initViewer() {
 }
 
 initMachinePanel({ focusMachine });
+initZoneDock();
 buildThumbnailMenu();
 resetBtn?.addEventListener('click', () => resetView());
 initViewer();
