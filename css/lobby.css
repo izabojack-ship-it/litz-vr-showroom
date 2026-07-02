@@ -415,12 +415,51 @@ html, body {
   100% { transform: scale(1.35); opacity: 0; }
 }
 
-/* 機型底部列 */
-.lb-machine-bar {
+/* 機台選單區（預設收起，點按鈕展開） */
+.lb-machine-dock {
   position: absolute;
   left: 50%;
   bottom: calc(68px + var(--lb-safe));
   transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+}
+
+.lb-machine-dock.is-available { display: flex; }
+
+.lb-machine-toggle {
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(12px);
+  color: var(--lb-text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--lb-shadow);
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.lb-machine-toggle:hover {
+  border-color: var(--lb-accent-soft);
+  color: var(--lb-accent);
+}
+
+.lb-machine-dock.is-expanded .lb-machine-toggle {
+  border-color: var(--lb-accent);
+  color: var(--lb-accent);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* 機型底部列 */
+.lb-machine-bar {
+  position: static;
+  transform: none;
   display: none;
   gap: 8px;
   padding: 8px 12px;
@@ -430,9 +469,18 @@ html, body {
   border: 1px solid rgba(255, 255, 255, 0.12);
   max-width: min(92vw, 520px);
   overflow-x: auto;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.lb-machine-bar.is-visible { display: flex; }
+.lb-machine-dock.is-expanded .lb-machine-bar {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 
 .lb-machine-card {
   position: relative;
@@ -750,6 +798,6 @@ html, body {
   .lb-radar { width: 70px; height: 70px; bottom: calc(268px + var(--lb-safe)); }
   .lb-thumbs { bottom: calc(14px + var(--lb-safe)); max-width: 94vw; }
   .lb-thumb__img { width: 60px; height: 30px; }
-  .lb-machine-bar { bottom: calc(148px + var(--lb-safe)); }
+  .lb-machine-dock { bottom: calc(148px + var(--lb-safe)); }
   .lb-product-panel__inner { width: 100%; }
 }

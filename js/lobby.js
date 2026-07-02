@@ -3,16 +3,17 @@
  */
 import { Viewer, EquirectangularAdapter } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
-import { ZONES } from './zones.js?v=machine24';
-import { getMachinesForScene } from './machines.js?v=machine24';
+import { ZONES } from './zones.js?v=machine25';
+import { getMachinesForScene } from './machines.js?v=machine25';
 import {
   initMachinePanel,
   setMachineBarVisible,
   setSceneMachines,
   openMachinePanel,
   closeMachinePanel,
+  collapseMachineBar,
   buildMachineMarkers,
-} from './machine-panel.js?v=machine24';
+} from './machine-panel.js?v=machine25';
 
 const MEDIA_VERSION = 'machine19';
 // 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
@@ -226,6 +227,11 @@ function initViewer() {
 
   viewer.addEventListener('position-updated', ({ position }) => {
     syncRadar(position.yaw);
+  });
+
+  viewer.container.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.lb-machine-dock')) return;
+    collapseMachineBar();
   });
 
   markersPlugin.addEventListener('select-marker', async ({ marker }) => {

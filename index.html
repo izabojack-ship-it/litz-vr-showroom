@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.14.1/index.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.14.1/index.css">
-  <link rel="stylesheet" href="./css/lobby.css?v=machine24">
+  <link rel="stylesheet" href="./css/lobby.css?v=machine25">
   <script type="importmap">
   {
     "imports": {
@@ -63,8 +63,13 @@
     </div>
 
     <nav id="lb-thumbs" class="lb-thumbs" aria-label="場景選單"></nav>
-    <!-- 機台選單：切換目前展區內的各機台 -->
-    <nav id="lb-machine-bar" class="lb-machine-bar" aria-label="機台選單"></nav>
+    <!-- 機台選單：預設收起，點「機台」展開 -->
+    <div id="lb-machine-dock" class="lb-machine-dock" aria-label="機台選單區">
+      <nav id="lb-machine-bar" class="lb-machine-bar" aria-label="機台選單"></nav>
+      <button type="button" id="lb-machine-toggle" class="lb-machine-toggle" aria-expanded="false" aria-controls="lb-machine-bar">
+        機台
+      </button>
+    </div>
   </div>
 
   <!-- 機台介紹側欄 -->
@@ -96,6 +101,6 @@
     <img id="lb-lightbox-img" class="lb-lightbox__img" alt="">
   </div>
 
-  <script type="module" src="./js/lobby.js?v=machine24"></script>
+  <script type="module" src="./js/lobby.js?v=machine25"></script>
 </body>
 </html>

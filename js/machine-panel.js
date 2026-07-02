@@ -6,7 +6,9 @@ const panelSubEl = document.getElementById('lb-panel-sub');
 const panelIntroEl = document.getElementById('lb-panel-intro');
 const panelMenuEl = document.getElementById('lb-panel-menu');
 const panelCloseEl = document.getElementById('lb-panel-close');
+const machineDockEl = document.getElementById('lb-machine-dock');
 const machineBarEl = document.getElementById('lb-machine-bar');
+const machineToggleEl = document.getElementById('lb-machine-toggle');
 
 const galleryEl = document.querySelector('.lb-gallery');
 const galleryThumbsEl = document.getElementById('lb-panel-thumbs');
@@ -23,6 +25,21 @@ let sceneMachines = [];
 let activeMachineId = null;
 let onFocusMachine = null;
 let currentMainSrc = '';
+let machineBarExpanded = false;
+
+function setMachineBarExpanded(expanded) {
+  machineBarExpanded = expanded;
+  machineDockEl?.classList.toggle('is-expanded', expanded);
+  machineToggleEl?.setAttribute('aria-expanded', String(expanded));
+}
+
+export function collapseMachineBar() {
+  setMachineBarExpanded(false);
+}
+
+export function expandMachineBar() {
+  if (sceneMachines.length) setMachineBarExpanded(true);
+}
 
 export function initMachinePanel({ focusMachine }) {
   onFocusMachine = focusMachine;
@@ -40,6 +57,10 @@ export function initMachinePanel({ focusMachine }) {
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightboxEl?.classList.contains('is-open')) closeLightbox();
+  });
+
+  machineToggleEl?.addEventListener('click', () => {
+    setMachineBarExpanded(!machineBarExpanded);
   });
 }
 
@@ -117,12 +138,18 @@ function buildMachineBar() {
     const btn = e.target.closest('.lb-machine-card');
     if (!btn) return;
     openMachinePanel(btn.dataset.machineId, { animate: true });
+    setMachineBarExpanded(false);
   };
 }
 
 export function setMachineBarVisible(visible) {
-  machineBarEl?.classList.toggle('is-visible', visible);
-  if (!visible) closeMachinePanel();
+  machineDockEl?.classList.toggle('is-available', visible);
+  if (!visible) {
+    setMachineBarExpanded(false);
+    closeMachinePanel();
+  } else {
+    setMachineBarExpanded(false);
+  }
 }
 
 export function openMachinePanel(machineId, { animate = false } = {}) {
