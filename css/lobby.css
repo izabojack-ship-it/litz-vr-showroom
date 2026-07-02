@@ -971,16 +971,36 @@ html, body {
 }
 
 @media (max-width: 640px) {
-  .lb-dock { max-width: 94vw; flex-wrap: wrap; justify-content: center; bottom: calc(200px + var(--lb-safe)); }
-  .lb-dock__hint { width: 100%; text-align: center; }
-  .lb-radar { width: 70px; height: 70px; bottom: calc(268px + var(--lb-safe)); }
-  .lb-zone-dock { bottom: calc(14px + var(--lb-safe)); }
+  .lb-dock {
+    max-width: 94vw;
+    justify-content: center;
+    bottom: calc(52px + var(--lb-safe));
+    padding: 7px 12px;
+  }
+
+  .lb-ui:has(.lb-machine-dock.is-available) .lb-dock {
+    bottom: calc(92px + var(--lb-safe));
+  }
+
+  .lb-dock__hint { display: none; }
+
+  .lb-radar {
+    width: 56px;
+    height: 56px;
+    padding: 6px;
+    bottom: calc(12px + var(--lb-safe));
+    left: max(10px, env(safe-area-inset-left));
+  }
+
+  .lb-radar__label { display: none; }
+
+  .lb-zone-dock { bottom: calc(12px + var(--lb-safe)); }
   .lb-thumbs { max-width: 94vw; }
   .lb-thumb__img { width: 60px; height: 30px; }
-  .lb-machine-dock { bottom: calc(148px + var(--lb-safe)); }
+  .lb-machine-dock { bottom: calc(50px + var(--lb-safe)); }
   .lb-presenter-dock {
     width: min(72vw, 240px);
-    bottom: calc(160px + var(--lb-safe));
+    bottom: calc(108px + var(--lb-safe));
   }
   .lb-product-panel__inner { width: 100%; }
 }
