@@ -10,6 +10,9 @@
   --lb-muted: #94a3b8;
   --lb-shadow: 0 14px 44px rgba(0, 0, 0, 0.5);
   --lb-safe: env(safe-area-inset-bottom, 0px);
+  --lb-dock-h: 44px;
+  --lb-toggle-h: 34px;
+  --lb-stack-gap: 8px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -207,7 +210,7 @@ html, body {
 .lb-radar {
   position: absolute;
   left: max(14px, env(safe-area-inset-left));
-  bottom: calc(72px + var(--lb-safe));
+  bottom: calc(12px + var(--lb-dock-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-safe));
   width: 84px;
   height: 84px;
   padding: 10px;
@@ -236,7 +239,7 @@ html, body {
 .lb-dock {
   position: absolute;
   left: 50%;
-  bottom: calc(72px + var(--lb-safe));
+  bottom: calc(12px + var(--lb-safe));
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
@@ -247,6 +250,7 @@ html, body {
   backdrop-filter: blur(16px);
   border: 1px solid var(--lb-glass-border);
   box-shadow: var(--lb-shadow);
+  z-index: 2;
 }
 
 .lb-dock button {
@@ -281,7 +285,7 @@ html, body {
 .lb-zone-dock {
   position: absolute;
   left: 50%;
-  bottom: calc(12px + var(--lb-safe));
+  bottom: calc(12px + var(--lb-dock-h) + var(--lb-stack-gap) + var(--lb-safe));
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
@@ -467,7 +471,7 @@ html, body {
 .lb-machine-dock {
   position: absolute;
   left: 50%;
-  bottom: calc(54px + var(--lb-safe));
+  bottom: calc(12px + var(--lb-dock-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-safe));
   transform: translateX(-50%);
   display: none;
   flex-direction: column;
@@ -971,15 +975,17 @@ html, body {
 }
 
 @media (max-width: 640px) {
+  :root {
+    --lb-dock-h: 36px;
+    --lb-toggle-h: 32px;
+    --lb-stack-gap: 6px;
+  }
+
   .lb-dock {
     max-width: 94vw;
     justify-content: center;
-    bottom: calc(52px + var(--lb-safe));
+    bottom: calc(12px + var(--lb-safe));
     padding: 7px 12px;
-  }
-
-  .lb-ui:has(.lb-machine-dock.is-available) .lb-dock {
-    bottom: calc(92px + var(--lb-safe));
   }
 
   .lb-dock__hint { display: none; }
@@ -988,19 +994,26 @@ html, body {
     width: 56px;
     height: 56px;
     padding: 6px;
-    bottom: calc(12px + var(--lb-safe));
+    bottom: calc(12px + var(--lb-dock-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-safe));
     left: max(10px, env(safe-area-inset-left));
   }
 
   .lb-radar__label { display: none; }
 
-  .lb-zone-dock { bottom: calc(12px + var(--lb-safe)); }
+  .lb-zone-dock {
+    bottom: calc(12px + var(--lb-dock-h) + var(--lb-stack-gap) + var(--lb-safe));
+  }
+
   .lb-thumbs { max-width: 94vw; }
   .lb-thumb__img { width: 60px; height: 30px; }
-  .lb-machine-dock { bottom: calc(50px + var(--lb-safe)); }
+
+  .lb-machine-dock {
+    bottom: calc(12px + var(--lb-dock-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-safe));
+  }
+
   .lb-presenter-dock {
     width: min(72vw, 240px);
-    bottom: calc(108px + var(--lb-safe));
+    bottom: calc(12px + var(--lb-dock-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + 24px + var(--lb-safe));
   }
   .lb-product-panel__inner { width: 100%; }
 }
