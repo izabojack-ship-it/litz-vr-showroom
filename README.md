@@ -18,10 +18,40 @@
 
 ```powershell
 cd C:\鋁台精機
-python -m http.server 8989
+launch.bat
 ```
 
-開啟：**http://127.0.0.1:8989/lobby-showroom/**
+- **VR 展間**：http://127.0.0.1:8990/
+- **管理後台**：http://127.0.0.1:8990/admin/（客戶自行上架產品內容）
+
+預設管理密碼 `litz-admin`（首次啟動後可於後台左側 **帳號設定** 修改；密碼存於 `content/config/admin.json`）。環境變數 `ADMIN_PASSWORD` 僅在尚未建立設定檔時作為初始密碼（可參考 `server/.env.example`）。
+
+## 線上部署（Render · 全球 HTTPS）
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/izabojack-ship-it/litz-vr-showroom)
+
+詳見 **[DEPLOY.md](./DEPLOY.md)**。部署後：
+
+- **VR 展間**：`https://你的服務.onrender.com/`
+- **管理後台**：`https://你的服務.onrender.com/admin/`
+
+在 Render 設定 `ADMIN_PASSWORD` 後，客戶即可用瀏覽器登入後台、發布內容，展間即時更新。
+
+## 產品內容管理（方案 A）
+
+網路由你託管，產品文案／照片／影片／型錄由客戶在後台自行上架：
+
+| 項目 | 路徑 | 誰維護 |
+|------|------|--------|
+| VR 程式、全景 | `index.html`、`js/`、`media/panoramas/` | 開發者 |
+| 機台指標位置 | `js/machines.layout.json` | 開發者 |
+| 產品介紹內容 | `content/published/machines.json` + `content/files/` | 客戶（後台） |
+
+**客戶流程：** 登入後台 → 選機台 → 改文案／上傳檔案 → 儲存草稿 → **發布至展間**
+
+**開發者流程：** 新增機台時只改 `js/machines.layout.json`（名稱、指標、focus），內容留給客戶在後台填。
+
+舊版 `js/machines.js` 已不再用於 VR 載入，可保留參考。
 
 ## 新增 / 更換站點全景（Blender / 3ds Max）
 
@@ -73,7 +103,7 @@ python lobby-showroom/scripts/prepare-panoramas.py
 - **底部機型列**：DC-900 / DC-1000 / DC-1100 快速切換
 - **右側列表**：產品 360°、型錄、應用案例、聯絡我們
 
-設定檔：`js/machines.js`（機型名稱、介紹文、指標 yaw/pitch、選單連結）
+設定檔：`js/machines.layout.json`（機型名稱、指標 yaw/pitch）＋ `content/published/machines.json`（產品介紹，後台維護）
 
 ```javascript
 {

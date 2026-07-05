@@ -19,11 +19,22 @@ if errorlevel 1 (
     exit /b 1
 )
 
-set "URL=http://%HOST%:%PORT%/"
-echo   網址  %URL%
+set "VR_URL=http://%HOST%:%PORT%/"
+set "ADMIN_URL=http://%HOST%:%PORT%/admin/"
+echo   VR 展間    %VR_URL%
+echo   管理後台    %ADMIN_URL%
+echo   預設密碼    litz-admin
 echo.
 
+for /f "tokens=5" %%p in ('netstat -ano ^| findstr ":%PORT%" ^| findstr "LISTENING"') do (
+    echo   關閉佔用 %PORT% 的舊程序 PID=%%p
+    taskkill /F /PID %%p >nul 2>&1
+)
+
+python -m pip install -r "server\requirements.txt" -q
+
 timeout /t 1 /nobreak >nul
-start "" "%URL%"
-python -m http.server %PORT% --bind %HOST%
+start "" "%VR_URL%"
+
+python -m uvicorn server.app:app --host %HOST% --port %PORT%
 pause

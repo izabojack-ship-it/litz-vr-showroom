@@ -1,0 +1,110 @@
+{
+  "version": 4,
+  "updatedAt": "2026-07-05T00:57:11Z",
+  "machines": {
+    "z1-left": {
+      "intro": "冷式壓鑄機適合中小型至大型精密鑄件，兼具節能與穩定射出性能。",
+      "photos": [
+        {
+          "full": "media/machines/ZDC-420TCSA.jpg",
+          "thumb": "media/machines/ZDC-420TCSA_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "media/presenter/ZDC-420TCSA.mp4",
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
+    },
+    "z1-center": {
+      "intro": "冷式壓鑄機適合中小型至大型精密鑄件，兼具節能與穩定射出性能。",
+      "photos": [
+        {
+          "full": "media/machines/ZDC-250TCSA.jpg",
+          "thumb": "media/machines/ZDC-250TCSA_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "media/presenter/ZDC-250TCSA.mp4",
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
+    },
+    "z1-right": {
+      "intro": "冷式壓鑄機適合中小型至大型精密鑄件，兼具節能與穩定射出性能。",
+      "photos": [
+        {
+          "full": "media/machines/ZDC-180TCSA.jpg",
+          "thumb": "media/machines/ZDC-180TCSA_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "media/presenter/ZDC-180TCSA.mp4",
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.litz.com.tw/"
+    },
+    "z2-left": {
+      "intro": "第二展區展示冷式壓鑄產線配置，鎖模力與循環效率均衡，適合量產應用。",
+      "photos": [
+        {
+          "full": "media/machines/ZDC-560TCSA.jpg",
+          "thumb": "media/machines/ZDC-560TCSA_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "media/presenter/ZDC-560TCSA.mp4",
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.litz.com.tw/"
+    },
+    "z2-center": {
+      "intro": "第二展區展示冷式壓鑄產線配置，鎖模力與循環效率均衡，適合量產應用。",
+      "photos": [
+        {
+          "full": "media/machines/ZDC-1100TCM.jpg",
+          "thumb": "media/machines/ZDC-1100TCM_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "media/presenter/ZDC-1100TCM.mp4",
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.litz.com.tw/"
+    },
+    "z2-right": {
+      "intro": "第二展區展示冷式壓鑄產線配置，鎖模力與循環效率均衡，適合量產應用。",
+      "photos": [
+        {
+          "full": "media/machines/ZDC-900TCSA.jpg",
+          "thumb": "media/machines/ZDC-900TCSA_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "media/presenter/ZDC-900TCSA.mp4",
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.litz.com.tw/"
+    },
+    "hot-press-1": {
+      "intro": "熱式壓鑄機適合鋅、鎂等低熔點合金，射出速度快、適合薄壁複雜件。",
+      "photos": [
+        {
+          "full": "media/machines/ZHC-130TCS.jpg",
+          "thumb": "media/machines/ZHC-130TCS_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "media/presenter/ZHC-130TCS.mp4",
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.litz.com.tw/"
+    },
+    "gravity-cast-1": {
+      "intro": "重力鑄造適合大型鋁件與結構件，設備穩定、維護簡便，廣泛用於汽機車與工業零件。",
+      "photos": [
+        {
+          "full": "media/machines/PMC-1000A.jpg",
+          "thumb": "media/machines/PMC-1000A_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "media/presenter/PMC-1000A.mp4",
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
+    }
+  }
+}

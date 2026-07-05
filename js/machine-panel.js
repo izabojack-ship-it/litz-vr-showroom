@@ -25,9 +25,6 @@ const presenterCloseEl = document.getElementById('lb-presenter-close');
 const presenterTitleEl = document.getElementById('lb-presenter-title');
 const presenterVideoEl = document.getElementById('lb-presenter-video');
 
-const PHOTO_BASE = './media/machines/';
-const PRESENTER_BASE = './media/presenter/';
-
 let sceneMachines = [];
 let activeMachineId = null;
 let onFocusMachine = null;
@@ -81,7 +78,7 @@ export function initMachinePanel({ focusMachine }) {
   });
   presenterCloseEl?.addEventListener('click', closePresenterDock);
   presenterVideoEl?.addEventListener('error', () => {
-    window.alert('此機台的真人介紹影片尚未上傳，請將影片放入 media/presenter/ 資料夾。');
+    window.alert('此機台的真人介紹影片尚未上傳，請至管理後台上傳。');
     closePresenterDock();
   });
 }
@@ -97,9 +94,9 @@ function renderGallery(machine) {
   galleryEl.style.display = '';
 
   const setMain = (photo) => {
-    currentMainSrc = PHOTO_BASE + photo.full;
+    currentMainSrc = photo.full;
     if (galleryMainImg) {
-      galleryMainImg.src = currentMainSrc;
+      galleryMainImg.src = photo.full;
       galleryMainImg.alt = `${machine.name} 產品照片`;
     }
     galleryThumbsEl?.querySelectorAll('.lb-gallery__thumb').forEach((t) => {
@@ -110,7 +107,7 @@ function renderGallery(machine) {
   if (galleryThumbsEl) {
     galleryThumbsEl.innerHTML = photos.map((p) => `
       <button type="button" class="lb-gallery__thumb" data-full="${p.full}" aria-label="${machine.name} 照片">
-        <img src="${PHOTO_BASE + p.thumb}" alt="" loading="lazy" decoding="async">
+        <img src="${p.thumb}" alt="" loading="lazy" decoding="async">
       </button>`).join('');
     galleryThumbsEl.classList.toggle('is-single', photos.length <= 1);
     galleryThumbsEl.onclick = (e) => {
@@ -155,7 +152,7 @@ function openPresenterDock(machine) {
 
   presenterTitleEl.textContent = machine.name;
   presenterVideoEl.pause();
-  presenterVideoEl.src = PRESENTER_BASE + machine.presenterVideo;
+  presenterVideoEl.src = machine.presenterVideo;
   presenterVideoEl.load();
 
   presenterDockEl.classList.add('is-open');
@@ -189,7 +186,7 @@ function buildMachineBar() {
   machineBarEl.innerHTML = sceneMachines.map((m) => {
     const thumb = m.photos?.[0]?.thumb;
     const icon = thumb
-      ? `<img class="lb-machine-card__icon" src="${PHOTO_BASE + thumb}" alt="" loading="lazy" decoding="async">`
+      ? `<img class="lb-machine-card__icon" src="${thumb}" alt="" loading="lazy" decoding="async">`
       : `<span class="lb-machine-card__icon" aria-hidden="true"></span>`;
     return `
     <button type="button" class="lb-machine-card" data-machine-id="${m.id}" aria-label="${m.name}">
@@ -309,9 +306,17 @@ function handleMenuAction(action, machine) {
     }
     return;
   }
+  if (action === 'catalog' && machine.catalogUrl) {
+    window.open(machine.catalogUrl, '_blank', 'noopener');
+    return;
+  }
+  if (action === 'cases' && machine.casesUrl) {
+    window.open(machine.casesUrl, '_blank', 'noopener');
+    return;
+  }
   const messages = {
-    catalog: `${machine.name} 型錄下載連結可於 machines.js 設定。`,
-    cases: `${machine.name} 應用案例內容可於 machines.js 設定。`,
+    catalog: `${machine.name} 尚未上傳型錄，請至管理後台設定。`,
+    cases: `${machine.name} 尚未設定應用案例連結。`,
   };
   if (messages[action]) {
     window.alert(messages[action]);

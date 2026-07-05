@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+
+# Local secrets & generated content
+content/files/
+content/draft/
+content/config/admin.json
+server/.env
+
+# Dev / temp
+.cursor/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+desktop.ini
+media/panoramas/tmp_*
+media/_chk_*
+scripts/__pycache__/
+
+# Zone 5 removed + loose assets not needed online
+media/panoramas/第五展區.jpg
+media/thumbs/第五展區.jpg
+第五展區*.jpg
+第五展區*.png
+鋁台無接縫_result.jpg
+真人介紹/

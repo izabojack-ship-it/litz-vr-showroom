@@ -3,8 +3,8 @@
  */
 import { Viewer, EquirectangularAdapter } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
-import { ZONES } from './zones.js?v=machine32';
-import { getMachinesForScene } from './machines.js?v=machine32';
+import { ZONES } from './zones.js?v=machine69';
+import { loadProductContent, getMachinesForScene } from './content-store.js?v=machine69';
 import {
   initMachinePanel,
   setMachineBarVisible,
@@ -13,9 +13,9 @@ import {
   closeMachinePanel,
   collapseMachineBar,
   buildMachineMarkers,
-} from './machine-panel.js?v=machine32';
+} from './machine-panel.js?v=machine69';
 
-const MEDIA_VERSION = 'machine19';
+const MEDIA_VERSION = 'machine69';
 // 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
 
 function mediaUrl(folder, file) {
@@ -304,4 +304,16 @@ initGuideDock();
 initZoneDock();
 buildThumbnailMenu();
 resetBtn?.addEventListener('click', () => resetView());
-initViewer();
+
+async function boot() {
+  if (loaderSubEl) loaderSubEl.textContent = '正在載入產品內容…';
+  loaderEl?.classList.remove('is-hidden');
+  try {
+    await loadProductContent();
+  } catch (err) {
+    console.error('[lobby] 產品內容載入失敗，仍開啟 VR 展間', err);
+  }
+  initViewer();
+}
+
+boot();

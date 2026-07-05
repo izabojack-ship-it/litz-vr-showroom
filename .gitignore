@@ -4,3 +4,16 @@ desktop.ini
 *.log
 *.tmp
 .cursor/
+content/files/
+content/draft/
+content/config/admin.json
+server/.env
+media/panoramas/tmp_*
+media/_chk_*
+scripts/__pycache__/
+media/panoramas/第五展區.jpg
+media/thumbs/第五展區.jpg
+第五展區*.jpg
+第五展區*.png
+鋁台無接縫_result.jpg
+真人介紹/

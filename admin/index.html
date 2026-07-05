@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <title>產品內容管理 · 鋁台 VR 展間</title>
+  <link rel="stylesheet" href="/admin/admin.css?v=5">
+</head>
+<body>
+  <div id="app" class="admin-app">
+    <section id="login-view" class="admin-login">
+      <form id="login-form" class="admin-card">
+        <h1>產品內容管理</h1>
+        <p class="admin-muted">客戶自行上架展間產品介紹、照片、影片與型錄</p>
+        <label class="admin-field">
+          <span>管理密碼</span>
+          <input id="login-password" type="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="admin-btn admin-btn--primary">登入</button>
+        <p id="login-error" class="admin-error" hidden></p>
+      </form>
+    </section>
+
+    <section id="dashboard-view" class="admin-dashboard" hidden>
+      <header class="admin-header">
+        <div>
+          <h1>產品內容管理</h1>
+          <p id="meta-info" class="admin-muted"></p>
+        </div>
+        <div class="admin-header__actions">
+          <a class="admin-btn admin-btn--ghost" href="/" target="_blank" rel="noopener">預覽 VR 展間</a>
+          <button id="publish-btn" type="button" class="admin-btn admin-btn--primary">發布至展間</button>
+          <button id="logout-btn" type="button" class="admin-btn admin-btn--ghost">登出</button>
+        </div>
+      </header>
+
+      <div class="admin-layout">
+        <aside class="admin-sidebar">
+          <h2>機台列表</h2>
+          <div id="machine-list" class="admin-machine-list"></div>
+
+          <section class="admin-settings">
+            <h2>帳號設定</h2>
+            <form id="password-form" class="admin-settings__form">
+              <label class="admin-field">
+                <span>目前密碼</span>
+                <input id="pwd-current" type="password" autocomplete="current-password" required>
+              </label>
+              <label class="admin-field">
+                <span>新密碼（至少 8 字）</span>
+                <input id="pwd-new" type="password" autocomplete="new-password" minlength="8" required>
+              </label>
+              <label class="admin-field">
+                <span>確認新密碼</span>
+                <input id="pwd-confirm" type="password" autocomplete="new-password" minlength="8" required>
+              </label>
+              <button type="submit" class="admin-btn admin-btn--ghost admin-btn--block">修改密碼</button>
+              <p id="password-status" class="admin-status" hidden></p>
+            </form>
+          </section>
+        </aside>
+
+        <main class="admin-main">
+          <div id="empty-state" class="admin-empty">請從左側選擇機台</div>
+          <form id="edit-form" class="admin-card" hidden>
+            <header class="admin-form-head">
+              <div>
+                <h2 id="edit-title"></h2>
+                <p id="edit-subtitle" class="admin-muted"></p>
+              </div>
+              <button type="submit" class="admin-btn admin-btn--primary">儲存草稿</button>
+            </header>
+
+            <label class="admin-field">
+              <span>產品介紹</span>
+              <textarea id="field-intro" rows="4" placeholder="輸入產品介紹文案"></textarea>
+            </label>
+
+            <section class="admin-section">
+              <div class="admin-section__head">
+                <h3>產品照片</h3>
+                <label class="admin-btn admin-btn--ghost admin-upload">
+                  上傳照片
+                  <input id="upload-photo" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+                </label>
+              </div>
+              <div id="photo-list" class="admin-photo-list"></div>
+            </section>
+
+            <section class="admin-section">
+              <div class="admin-section__head">
+                <h3>真人介紹影片</h3>
+                <label class="admin-btn admin-btn--ghost admin-upload">
+                  上傳影片
+                  <input id="upload-presenter" type="file" accept="video/mp4,video/webm" hidden>
+                </label>
+              </div>
+              <p id="presenter-info" class="admin-muted">尚未上傳</p>
+            </section>
+
+            <section class="admin-grid">
+              <label class="admin-field">
+                <span>產品型錄</span>
+                <label class="admin-btn admin-btn--ghost admin-upload admin-upload--block">
+                  上傳 PDF 型錄
+                  <input id="upload-catalog" type="file" accept="application/pdf" hidden>
+                </label>
+                <p id="catalog-info" class="admin-muted">尚未上傳</p>
+              </label>
+
+              <label class="admin-field">
+                <span>應用案例連結</span>
+                <input id="field-cases" type="url" placeholder="https://">
+              </label>
+
+              <label class="admin-field">
+                <span>聯絡我們連結</span>
+                <input id="field-contact" type="url" placeholder="https://www.litz.com.tw/">
+              </label>
+            </section>
+
+            <p id="save-status" class="admin-status" hidden></p>
+          </form>
+        </main>
+      </div>
+    </section>
+  </div>
+  <script src="/admin/admin.js?v=5"></script>
+</body>
+</html>

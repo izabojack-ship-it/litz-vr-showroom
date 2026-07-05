@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: litz-vr-showroom
+    runtime: docker
+    plan: starter
+    region: singapore
+    branch: main
+    healthCheckPath: /api/health
+    envVars:
+      - key: CONTENT_DIR
+        value: /data/content
+      - key: ADMIN_PASSWORD
+        sync: false
+    disk:
+      name: litz-content
+      mountPath: /data
+      sizeGB: 1
