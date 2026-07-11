@@ -3,8 +3,8 @@
  */
 import { Viewer, EquirectangularAdapter } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
-import { ZONES } from './zones.js?v=machine81';
-import { loadProductContent, getMachinesForScene } from './content-store.js?v=machine81';
+import { ZONES } from './zones.js?v=machine82';
+import { loadProductContent, getMachinesForScene } from './content-store.js?v=machine82';
 import {
   initMachinePanel,
   setMachineBarVisible,
@@ -13,9 +13,9 @@ import {
   closeMachinePanel,
   collapseMachineBar,
   buildMachineMarkers,
-} from './machine-panel.js?v=machine81';
+} from './machine-panel.js?v=machine82';
 
-const MEDIA_VERSION = 'machine81';
+const MEDIA_VERSION = 'machine82';
 // 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
 
 function mediaUrl(folder, file) {

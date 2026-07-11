@@ -216,6 +216,9 @@ function openPresenterDock(machine) {
 
   presenterStageEl?.style.removeProperty('--presenter-aspect');
   presenterVideoEl.pause();
+  presenterVideoEl.setAttribute('playsinline', '');
+  presenterVideoEl.setAttribute('webkit-playsinline', '');
+  presenterVideoEl.playsInline = true;
   presenterVideoEl.src = videos[activePresenterLang];
   presenterVideoEl.load();
 
@@ -225,9 +228,13 @@ function openPresenterDock(machine) {
 
   if (onFocusMachine) onFocusMachine(machine);
 
-  presenterVideoEl.play().catch(() => {
-    /* 瀏覽器可能阻擋自動播放，使用者可手動按播放 */
-  });
+  // 手機通常禁止有聲自動播放：失敗就留給使用者點播放鍵
+  const tryPlay = () => {
+    const p = presenterVideoEl.play();
+    if (p && typeof p.catch === 'function') p.catch(() => {});
+  };
+  if (presenterVideoEl.readyState >= 2) tryPlay();
+  else presenterVideoEl.addEventListener('loadeddata', tryPlay, { once: true });
 }
 
 function switchPresenterLang(lang) {

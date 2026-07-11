@@ -1030,6 +1030,9 @@ html, body {
   display: block;
   object-fit: contain;
   background: #000;
+  /* iOS Safari：允許行內播放與觸控操作 */
+  -webkit-touch-callout: default;
+  touch-action: manipulation;
 }
 
 .lb-panel-menu {
