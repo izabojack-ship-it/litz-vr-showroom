@@ -23,10 +23,6 @@ media/panoramas/tmp_*
 media/_chk_*
 scripts/__pycache__/
 
-# Zone 5 removed + loose assets not needed online
-media/panoramas/第五展區.jpg
-media/thumbs/第五展區.jpg
-第五展區*.jpg
-第五展區*.png
+# Loose assets not needed online
 鋁台無接縫_result.jpg
 真人介紹/

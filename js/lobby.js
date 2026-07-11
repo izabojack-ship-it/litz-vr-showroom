@@ -3,8 +3,8 @@
  */
 import { Viewer, EquirectangularAdapter } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
-import { ZONES } from './zones.js?v=machine69';
-import { loadProductContent, getMachinesForScene } from './content-store.js?v=machine69';
+import { ZONES } from './zones.js?v=machine80';
+import { loadProductContent, getMachinesForScene } from './content-store.js?v=machine80';
 import {
   initMachinePanel,
   setMachineBarVisible,
@@ -13,9 +13,9 @@ import {
   closeMachinePanel,
   collapseMachineBar,
   buildMachineMarkers,
-} from './machine-panel.js?v=machine69';
+} from './machine-panel.js?v=machine80';
 
-const MEDIA_VERSION = 'machine69';
+const MEDIA_VERSION = 'machine80';
 // 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
 
 function mediaUrl(folder, file) {
@@ -39,6 +39,7 @@ const DEFAULT_YAW = {
   'zone-2': '0deg',
   'zone-3': '-2deg',
   'zone-4': '-100deg',
+  'zone-5': '0deg',
 };
 
 const scenes = ZONES.map((zone) => ({

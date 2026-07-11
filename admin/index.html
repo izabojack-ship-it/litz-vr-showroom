@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Cache-Control" content="no-cache">
   <title>產品內容管理 · 鋁台 VR 展間</title>
-  <link rel="stylesheet" href="/admin/admin.css?v=5">
+  <link rel="stylesheet" href="/admin/admin.css?v=6">
 </head>
 <body>
   <div id="app" class="admin-app">
@@ -90,13 +90,44 @@
 
             <section class="admin-section">
               <div class="admin-section__head">
-                <h3>真人介紹影片</h3>
-                <label class="admin-btn admin-btn--ghost admin-upload">
-                  上傳影片
-                  <input id="upload-presenter" type="file" accept="video/mp4,video/webm" hidden>
-                </label>
+                <h3>真人介紹影片（三語）</h3>
               </div>
-              <p id="presenter-info" class="admin-muted">尚未上傳</p>
+              <p class="admin-muted">分別上傳中文、English、ไทย 三段影片；訪客可於展間切換語言。</p>
+              <div class="admin-presenter-langs">
+                <div class="admin-presenter-lang">
+                  <span class="admin-presenter-lang__name">中文</span>
+                  <p id="presenter-info-zh" class="admin-muted admin-presenter-lang__info">尚未上傳</p>
+                  <div class="admin-presenter-lang__actions">
+                    <label class="admin-btn admin-btn--ghost admin-upload">
+                      上傳
+                      <input id="upload-presenter-zh" type="file" accept="video/mp4,video/webm" hidden>
+                    </label>
+                    <button type="button" id="delete-presenter-zh" class="admin-btn admin-btn--ghost admin-btn--danger" hidden>刪除</button>
+                  </div>
+                </div>
+                <div class="admin-presenter-lang">
+                  <span class="admin-presenter-lang__name">English</span>
+                  <p id="presenter-info-en" class="admin-muted admin-presenter-lang__info">尚未上傳</p>
+                  <div class="admin-presenter-lang__actions">
+                    <label class="admin-btn admin-btn--ghost admin-upload">
+                      上傳
+                      <input id="upload-presenter-en" type="file" accept="video/mp4,video/webm" hidden>
+                    </label>
+                    <button type="button" id="delete-presenter-en" class="admin-btn admin-btn--ghost admin-btn--danger" hidden>刪除</button>
+                  </div>
+                </div>
+                <div class="admin-presenter-lang">
+                  <span class="admin-presenter-lang__name">ไทย</span>
+                  <p id="presenter-info-th" class="admin-muted admin-presenter-lang__info">尚未上傳</p>
+                  <div class="admin-presenter-lang__actions">
+                    <label class="admin-btn admin-btn--ghost admin-upload">
+                      上傳
+                      <input id="upload-presenter-th" type="file" accept="video/mp4,video/webm" hidden>
+                    </label>
+                    <button type="button" id="delete-presenter-th" class="admin-btn admin-btn--ghost admin-btn--danger" hidden>刪除</button>
+                  </div>
+                </div>
+              </div>
             </section>
 
             <section class="admin-grid">
@@ -126,6 +157,6 @@
       </div>
     </section>
   </div>
-  <script src="/admin/admin.js?v=5"></script>
+  <script src="/admin/admin.js?v=6"></script>
 </body>
 </html>

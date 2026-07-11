@@ -27,5 +27,13 @@ export const ZONES = [
     "file": "重力鑄造機展區.jpg",
     "width": 16384,
     "height": 8192
+  },
+  {
+    "id": "zone-5",
+    "title": "第五展區",
+    "file": "第五展區.jpg",
+    "width": 11520,
+    "height": 5760,
+    "seamShift": 2
   }
 ];

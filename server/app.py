@@ -128,11 +128,15 @@ def init_admin_password() -> None:
     set_admin_password(initial)
 
 
+PRESENTER_LANGS = ("zh", "en", "th")
+
+
 def machine_defaults(machine_id: str) -> dict:
     return {
         "intro": "",
         "photos": [],
-        "presenterVideo": "",
+        "presenterVideo": "",           # 向下相容（等同 presenterVideos.zh）
+        "presenterVideos": {},          # 三語真人介紹影片 {zh, en, th}
         "catalogUrl": "",
         "casesUrl": "",
         "contactUrl": "https://www.litz.com.tw/",
@@ -154,6 +158,7 @@ def list_layout_machines() -> list[dict]:
         "zone-2": "冷式壓鑄機第二展區",
         "zone-3": "熱式壓鑄機展區",
         "zone-4": "重力鑄造機展區",
+        "zone-5": "第五展區",
     }
     items: list[dict] = []
     for zone_id, machines in zones.items():
@@ -190,6 +195,7 @@ class MachineContentBody(BaseModel):
     intro: str = ""
     photos: list[dict | str] = Field(default_factory=list)
     presenterVideo: str = ""
+    presenterVideos: dict[str, str] = Field(default_factory=dict)
     catalogUrl: str = ""
     casesUrl: str = ""
     contactUrl: str = ""
@@ -313,6 +319,7 @@ def admin_save_machine(
 async def admin_upload(
     machine_id: str,
     kind: str,
+    lang: str = "zh",
     file: UploadFile = File(...),
     _: None = Depends(require_auth),
 ) -> dict:
@@ -355,9 +362,15 @@ async def admin_upload(
     elif kind == "presenter":
         if suffix not in ALLOWED_VIDEO:
             raise HTTPException(status_code=400, detail="影片請使用 MP4 / WebM")
-        video_name = f"{file_id}{suffix}"
+        if lang not in PRESENTER_LANGS:
+            raise HTTPException(status_code=400, detail="語言需為 zh / en / th")
+        video_name = f"{lang}_{file_id}{suffix}"
         (target_dir / video_name).write_bytes(data)
-        content["presenterVideo"] = f"{rel_dir}/{video_name}"
+        videos = dict(content.get("presenterVideos") or {})
+        videos[lang] = f"{rel_dir}/{video_name}"
+        content["presenterVideos"] = videos
+        if lang == "zh":
+            content["presenterVideo"] = videos[lang]  # 向下相容
 
     elif kind == "catalog":
         if suffix not in ALLOWED_PDF:
@@ -388,6 +401,28 @@ def admin_delete_photo(
         raise HTTPException(status_code=404, detail="找不到照片")
     photos.pop(index)
     content["photos"] = photos
+    draft.setdefault("machines", {})
+    draft["machines"][machine_id] = content
+    draft["updatedAt"] = utc_now()
+    save_draft(draft)
+    return {"ok": True, "content": content}
+
+
+@app.delete("/api/admin/machines/{machine_id}/presenter/{lang}")
+def admin_delete_presenter(
+    machine_id: str,
+    lang: str,
+    _: None = Depends(require_auth),
+) -> dict:
+    if lang not in PRESENTER_LANGS:
+        raise HTTPException(status_code=400, detail="語言需為 zh / en / th")
+    draft = load_draft()
+    content = merge_machine_content(machine_id, draft)
+    videos = dict(content.get("presenterVideos") or {})
+    videos.pop(lang, None)
+    content["presenterVideos"] = videos
+    if lang == "zh":
+        content["presenterVideo"] = ""
     draft.setdefault("machines", {})
     draft["machines"][machine_id] = content
     draft["updatedAt"] = utc_now()

@@ -31,6 +31,19 @@ function normalizePhotos(photos) {
   });
 }
 
+const PRESENTER_LANGS = ['zh', 'en', 'th'];
+
+function resolvePresenterVideos(content) {
+  const raw = { ...(content.presenterVideos || {}) };
+  // 舊資料相容：單一 presenterVideo 視為中文
+  if (!raw.zh && content.presenterVideo) raw.zh = content.presenterVideo;
+  const out = {};
+  for (const lang of PRESENTER_LANGS) {
+    if (raw[lang]) out[lang] = resolveContentUrl(raw[lang]);
+  }
+  return out;
+}
+
 function buildMenu(content) {
   const menu = [];
   if (content.photos?.length) {
@@ -73,6 +86,7 @@ function mergeLayoutWithManifest(layout, manifest) {
         presenterVideo: content.presenterVideo
           ? resolveContentUrl(content.presenterVideo)
           : '',
+        presenterVideos: resolvePresenterVideos(content),
         catalogUrl: content.catalogUrl ? resolveContentUrl(content.catalogUrl) : '',
         casesUrl: content.casesUrl ? resolveContentUrl(content.casesUrl) : '',
         contactUrl: content.contactUrl ? resolveContentUrl(content.contactUrl) : '',

@@ -24,12 +24,18 @@ const presenterDockEl = document.getElementById('lb-presenter-dock');
 const presenterCloseEl = document.getElementById('lb-presenter-close');
 const presenterTitleEl = document.getElementById('lb-presenter-title');
 const presenterVideoEl = document.getElementById('lb-presenter-video');
+const presenterLangsEl = document.getElementById('lb-presenter-langs');
+const presenterStageEl = presenterVideoEl?.closest('.lb-presenter-dock__stage');
+
+const PRESENTER_LANG_LABELS = { zh: '中文', en: 'EN', th: 'ไทย' };
+const PRESENTER_LANG_ORDER = ['zh', 'en', 'th'];
 
 let sceneMachines = [];
 let activeMachineId = null;
 let onFocusMachine = null;
 let currentMainSrc = '';
 let machineBarExpanded = false;
+let activePresenterLang = 'zh';
 
 function setMachineBarExpanded(expanded) {
   machineBarExpanded = expanded;
@@ -81,6 +87,17 @@ export function initMachinePanel({ focusMachine }) {
     window.alert('此機台的真人介紹影片尚未上傳，請至管理後台上傳。');
     closePresenterDock();
   });
+  // 影片載入後依實際比例調整播放框，避免橫式影片被壓成小小一條
+  presenterVideoEl?.addEventListener('loadedmetadata', applyPresenterAspect);
+}
+
+function applyPresenterAspect() {
+  if (!presenterStageEl || !presenterVideoEl) return;
+  const w = presenterVideoEl.videoWidth;
+  const h = presenterVideoEl.videoHeight;
+  if (w > 0 && h > 0) {
+    presenterStageEl.style.setProperty('--presenter-aspect', `${w} / ${h}`);
+  }
 }
 
 function renderGallery(machine) {
@@ -133,10 +150,41 @@ function closeLightbox() {
   lightboxEl?.setAttribute('aria-hidden', 'true');
 }
 
+function getPresenterVideos(machine) {
+  const videos = { ...(machine?.presenterVideos || {}) };
+  // 舊資料相容：單一 presenterVideo 視為中文
+  if (!videos.zh && machine?.presenterVideo) videos.zh = machine.presenterVideo;
+  return videos;
+}
+
+function presenterLangList(machine) {
+  const videos = getPresenterVideos(machine);
+  return PRESENTER_LANG_ORDER.filter((lang) => videos[lang]);
+}
+
 function updatePresenterButton(machine) {
   if (!presenterBtnEl) return;
-  const hasVideo = Boolean(machine?.presenterVideo);
-  presenterBtnEl.hidden = !hasVideo;
+  presenterBtnEl.hidden = presenterLangList(machine).length === 0;
+}
+
+function renderPresenterLangControls(machine) {
+  if (!presenterLangsEl) return;
+  const langs = presenterLangList(machine);
+  // 只有一種語言就不顯示切換列
+  if (langs.length <= 1) {
+    presenterLangsEl.innerHTML = '';
+    presenterLangsEl.hidden = true;
+    return;
+  }
+  presenterLangsEl.hidden = false;
+  presenterLangsEl.innerHTML = langs.map((lang) => `
+    <button type="button" class="lb-presenter-lang${lang === activePresenterLang ? ' is-active' : ''}" data-lang="${lang}" aria-pressed="${lang === activePresenterLang}">
+      ${PRESENTER_LANG_LABELS[lang]}
+    </button>`).join('');
+  presenterLangsEl.onclick = (e) => {
+    const btn = e.target.closest('.lb-presenter-lang');
+    if (btn) switchPresenterLang(btn.dataset.lang);
+  };
 }
 
 function hideProductPanel() {
@@ -145,14 +193,21 @@ function hideProductPanel() {
 }
 
 function openPresenterDock(machine) {
-  if (!presenterDockEl || !presenterVideoEl || !machine?.presenterVideo) return;
+  if (!presenterDockEl || !presenterVideoEl) return;
+  const videos = getPresenterVideos(machine);
+  const langs = presenterLangList(machine);
+  if (langs.length === 0) return;
 
   hideProductPanel();
   activeMachineId = machine.id;
+  if (!langs.includes(activePresenterLang)) activePresenterLang = langs[0];
 
   presenterTitleEl.textContent = machine.name;
+  renderPresenterLangControls(machine);
+
+  presenterStageEl?.style.removeProperty('--presenter-aspect');
   presenterVideoEl.pause();
-  presenterVideoEl.src = machine.presenterVideo;
+  presenterVideoEl.src = videos[activePresenterLang];
   presenterVideoEl.load();
 
   presenterDockEl.classList.add('is-open');
@@ -163,6 +218,37 @@ function openPresenterDock(machine) {
 
   presenterVideoEl.play().catch(() => {
     /* 瀏覽器可能阻擋自動播放，使用者可手動按播放 */
+  });
+}
+
+function switchPresenterLang(lang) {
+  const machine = sceneMachines.find((m) => m.id === activeMachineId);
+  const videos = getPresenterVideos(machine);
+  if (!machine || !videos[lang] || lang === activePresenterLang) return;
+  activePresenterLang = lang;
+
+  const wasPlaying = !presenterVideoEl.paused && !presenterVideoEl.ended;
+  const resumeAt = presenterVideoEl.currentTime || 0;
+
+  presenterVideoEl.pause();
+  presenterVideoEl.src = videos[lang];
+  presenterVideoEl.load();
+  const onReady = () => {
+    presenterVideoEl.removeEventListener('loadedmetadata', onReady);
+    // 切換語言時盡量沿用原播放進度
+    if (Number.isFinite(presenterVideoEl.duration)) {
+      try {
+        presenterVideoEl.currentTime = Math.min(resumeAt, Math.max(0, presenterVideoEl.duration - 0.1));
+      } catch { /* 忽略 seek 失敗 */ }
+    }
+    if (wasPlaying) presenterVideoEl.play().catch(() => {});
+  };
+  presenterVideoEl.addEventListener('loadedmetadata', onReady);
+
+  presenterLangsEl?.querySelectorAll('.lb-presenter-lang').forEach((b) => {
+    const active = b.dataset.lang === lang;
+    b.classList.toggle('is-active', active);
+    b.setAttribute('aria-pressed', String(active));
   });
 }
 

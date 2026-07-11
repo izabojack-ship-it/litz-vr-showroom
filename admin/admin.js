@@ -15,13 +15,16 @@ const fieldIntro = document.getElementById('field-intro');
 const fieldCases = document.getElementById('field-cases');
 const fieldContact = document.getElementById('field-contact');
 const photoListEl = document.getElementById('photo-list');
-const presenterInfoEl = document.getElementById('presenter-info');
 const catalogInfoEl = document.getElementById('catalog-info');
+const PRESENTER_LANGS = [
+  { code: 'zh', name: '中文' },
+  { code: 'en', name: 'English' },
+  { code: 'th', name: 'ไทย' },
+];
 const saveStatusEl = document.getElementById('save-status');
 const publishBtn = document.getElementById('publish-btn');
 const logoutBtn = document.getElementById('logout-btn');
 const uploadPhoto = document.getElementById('upload-photo');
-const uploadPresenter = document.getElementById('upload-presenter');
 const uploadCatalog = document.getElementById('upload-catalog');
 const passwordForm = document.getElementById('password-form');
 const pwdCurrent = document.getElementById('pwd-current');
@@ -121,13 +124,29 @@ function fillForm(layout, content) {
   fieldIntro.value = content.intro || '';
   fieldCases.value = content.casesUrl || '';
   fieldContact.value = content.contactUrl || 'https://www.litz.com.tw/';
-  presenterInfoEl.textContent = content.presenterVideo
-    ? `已上傳：${content.presenterVideo}`
-    : '尚未上傳';
+  renderPresenterLangs(content);
   catalogInfoEl.textContent = content.catalogUrl
     ? `已上傳：${content.catalogUrl}`
     : '尚未上傳';
   renderPhotos(content.photos || []);
+}
+
+function getPresenterVideos(content) {
+  const videos = { ...(content?.presenterVideos || {}) };
+  // 舊資料相容：單一 presenterVideo 視為中文
+  if (!videos.zh && content?.presenterVideo) videos.zh = content.presenterVideo;
+  return videos;
+}
+
+function renderPresenterLangs(content) {
+  const videos = getPresenterVideos(content);
+  for (const { code } of PRESENTER_LANGS) {
+    const info = document.getElementById(`presenter-info-${code}`);
+    const del = document.getElementById(`delete-presenter-${code}`);
+    const src = videos[code];
+    if (info) info.textContent = src ? `已上傳：${src}` : '尚未上傳';
+    if (del) del.hidden = !src;
+  }
 }
 
 function renderPhotos(photos) {
@@ -174,6 +193,7 @@ function currentPayload() {
     intro: fieldIntro.value.trim(),
     photos: activeContent?.photos || [],
     presenterVideo: activeContent?.presenterVideo || '',
+    presenterVideos: activeContent?.presenterVideos || {},
     catalogUrl: activeContent?.catalogUrl || '',
     casesUrl: fieldCases.value.trim(),
     contactUrl: fieldContact.value.trim() || 'https://www.litz.com.tw/',
@@ -192,18 +212,32 @@ async function saveDraft() {
   await loadDashboard();
 }
 
-async function uploadFile(kind, file) {
+async function uploadFile(kind, file, lang) {
   if (!activeMachineId || !file) return;
   const form = new FormData();
   form.append('file', file);
-  const data = await api(`/api/admin/machines/${activeMachineId}/upload?kind=${kind}`, {
-    method: 'POST',
-    body: form,
+  let url = `/api/admin/machines/${activeMachineId}/upload?kind=${kind}`;
+  if (lang) url += `&lang=${lang}`;
+  const data = await api(url, { method: 'POST', body: form });
+  activeContent = data.content;
+  fillForm(machines.find((m) => m.id === activeMachineId), activeContent);
+  saveStatusEl.hidden = false;
+  saveStatusEl.style.color = '';
+  saveStatusEl.textContent = '檔案已上傳並存入草稿';
+  await loadDashboard();
+}
+
+async function deletePresenter(lang) {
+  if (!activeMachineId) return;
+  if (!window.confirm('確定刪除這段真人介紹影片？')) return;
+  const data = await api(`/api/admin/machines/${activeMachineId}/presenter/${lang}`, {
+    method: 'DELETE',
   });
   activeContent = data.content;
   fillForm(machines.find((m) => m.id === activeMachineId), activeContent);
   saveStatusEl.hidden = false;
-  saveStatusEl.textContent = '檔案已上傳並存入草稿';
+  saveStatusEl.style.color = '';
+  saveStatusEl.textContent = '影片已刪除並存入草稿';
   await loadDashboard();
 }
 
@@ -247,8 +281,23 @@ editForm.addEventListener('submit', async (e) => {
 });
 
 uploadPhoto.addEventListener('change', () => uploadFile('photo', uploadPhoto.files[0]));
-uploadPresenter.addEventListener('change', () => uploadFile('presenter', uploadPresenter.files[0]));
 uploadCatalog.addEventListener('change', () => uploadFile('catalog', uploadCatalog.files[0]));
+
+for (const { code } of PRESENTER_LANGS) {
+  const input = document.getElementById(`upload-presenter-${code}`);
+  input?.addEventListener('change', () => {
+    uploadFile('presenter', input.files[0], code).catch((err) => {
+      saveStatusEl.hidden = false;
+      saveStatusEl.style.color = '#ef6b6b';
+      saveStatusEl.textContent = err.message;
+    });
+    input.value = '';
+  });
+  const del = document.getElementById(`delete-presenter-${code}`);
+  del?.addEventListener('click', () => {
+    deletePresenter(code).catch((err) => window.alert(err.message));
+  });
+}
 
 publishBtn.addEventListener('click', async () => {
   if (!window.confirm('確定發布？訪客將立即看到最新內容。')) return;
