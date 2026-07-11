@@ -253,7 +253,14 @@ def auth_check(_: None = Depends(require_auth)) -> dict:
 
 @app.get("/api/health")
 def health_check() -> dict:
-    return {"ok": True}
+    published = load_published() if PUBLISHED_PATH.exists() else {}
+    return {
+        "ok": True,
+        "contentDir": str(CONTENT),
+        "publishedVersion": published.get("version"),
+        "publishedAt": published.get("updatedAt"),
+        "filesDirExists": FILES_DIR.is_dir(),
+    }
 
 
 @app.get("/api/content/manifest")

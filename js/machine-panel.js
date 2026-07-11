@@ -83,8 +83,17 @@ export function initMachinePanel({ focusMachine }) {
     if (machine) openPresenterDock(machine);
   });
   presenterCloseEl?.addEventListener('click', closePresenterDock);
+  // 只在「真正要播片卻失敗」時提示；關閉時清掉 src 觸發的 error 要忽略
   presenterVideoEl?.addEventListener('error', () => {
-    window.alert('此機台的真人介紹影片尚未上傳，請至管理後台上傳。');
+    if (presenterVideoEl?.dataset.ignoreError === '1') return;
+    const src = presenterVideoEl?.currentSrc || presenterVideoEl?.getAttribute('src') || '';
+    const code = presenterVideoEl?.error?.code;
+    const detail = code ? `（錯誤碼 ${code}）` : '';
+    if (!src) {
+      window.alert('真人介紹影片載入失敗，路徑為空。請重新整理後再試，或至後台確認是否已「發布至展間」。');
+    } else {
+      window.alert(`真人介紹影片無法播放${detail}\n${src}\n請確認已按「發布至展間」，並強制重新整理頁面（Ctrl+F5）。`);
+    }
     closePresenterDock();
   });
   // 影片載入後依實際比例調整播放框，避免橫式影片被壓成小小一條
@@ -254,9 +263,16 @@ function switchPresenterLang(lang) {
 
 function closePresenterDock() {
   if (!presenterDockEl || !presenterVideoEl) return;
+  presenterVideoEl.dataset.ignoreError = '1';
   presenterVideoEl.pause();
   presenterVideoEl.removeAttribute('src');
-  presenterVideoEl.load();
+  try {
+    presenterVideoEl.load();
+  } catch { /* ignore */ }
+  // 下一幀再恢復，避免清 src 的 error 被誤判成未上傳
+  requestAnimationFrame(() => {
+    if (presenterVideoEl) presenterVideoEl.dataset.ignoreError = '0';
+  });
   presenterDockEl.classList.remove('is-open');
   presenterDockEl.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('lb-presenter-active');

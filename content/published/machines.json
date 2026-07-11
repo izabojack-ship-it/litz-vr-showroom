@@ -1,6 +1,6 @@
 {
   "version": 4,
-  "updatedAt": "2026-07-05T00:57:11Z",
+  "updatedAt": "2026-07-11T12:21:53Z",
   "machines": {
     "z1-left": {
       "intro": "冷式壓鑄機適合中小型至大型精密鑄件，兼具節能與穩定射出性能。",
@@ -36,7 +36,7 @@
           "thumb": "media/machines/ZDC-180TCSA_thumb.jpg"
         }
       ],
-      "presenterVideo": "media/presenter/ZDC-180TCSA.mp4",
+      "presenterVideo": "",
       "catalogUrl": "",
       "casesUrl": "",
       "contactUrl": "https://www.litz.com.tw/"
