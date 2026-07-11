@@ -219,6 +219,8 @@ function openPresenterDock(machine) {
   presenterVideoEl.setAttribute('playsinline', '');
   presenterVideoEl.setAttribute('webkit-playsinline', '');
   presenterVideoEl.playsInline = true;
+  // 先有聲；若瀏覽器擋自動播放再退回靜音（仍可手動開聲）
+  presenterVideoEl.muted = false;
   presenterVideoEl.src = videos[activePresenterLang];
   presenterVideoEl.load();
 
@@ -228,13 +230,25 @@ function openPresenterDock(machine) {
 
   if (onFocusMachine) onFocusMachine(machine);
 
-  // 手機通常禁止有聲自動播放：失敗就留給使用者點播放鍵
-  const tryPlay = () => {
+  // 必須在「點擊真人介紹」的使用者手勢內盡早 play；延到 loadeddata 時 iOS 常會擋有聲播放
+  tryPlayPresenter();
+  if (presenterVideoEl.readyState < 2) {
+    presenterVideoEl.addEventListener('loadeddata', tryPlayPresenter, { once: true });
+  }
+}
+
+function tryPlayPresenter() {
+  if (!presenterVideoEl) return;
+  const attempt = (muted) => {
+    presenterVideoEl.muted = muted;
     const p = presenterVideoEl.play();
-    if (p && typeof p.catch === 'function') p.catch(() => {});
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {
+        if (!muted) attempt(true);
+      });
+    }
   };
-  if (presenterVideoEl.readyState >= 2) tryPlay();
-  else presenterVideoEl.addEventListener('loadeddata', tryPlay, { once: true });
+  attempt(false);
 }
 
 function switchPresenterLang(lang) {
