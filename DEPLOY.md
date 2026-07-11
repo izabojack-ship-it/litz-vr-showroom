@@ -25,10 +25,21 @@
 
 左側 **帳號設定** 可修改後台密碼（存於持久碟 `content/config/admin.json`）。
 
-## 持久化
+## 持久化（重要）
 
-- `render.yaml` 已掛載 **1GB 持久碟** 於 `/data`（客戶上傳的檔案、密碼設定會保留）
-- 需 **Starter 方案**（Render 免費方案無持久碟，重啟後上傳會消失）
+上傳的照片／影片必須寫入 **Disk**，否則每次重新部署都會消失。
+
+1. Render Dashboard → 服務 `litz-vr-showroom`
+2. **Disks**：確認有磁碟掛在 `/data`（Starter 方案才有持久碟；免費方案沒有）
+3. **Environment** 務必設定：
+   - `CONTENT_DIR` = `/data/content`
+4. 儲存後 **Manual Deploy → Deploy latest commit**
+5. 開啟 `/api/health`，確認：
+   - `contentDir` 為 `/data/content`
+   - `ephemeralStorage` 為 `false`
+   - `dataMounted` 為 `true`
+
+若 `contentDir` 仍是 `/app/content`，代表檔案寫在容器暫存區，**重新部署後上傳一定會不見**。
 
 ## 本機開發
 

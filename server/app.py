@@ -22,7 +22,22 @@ from pydantic import BaseModel, Field
 from server.password import hash_password, verify_password
 
 ROOT = Path(__file__).resolve().parents[1]
-CONTENT = Path(os.environ.get("CONTENT_DIR", str(ROOT / "content")))
+
+
+def resolve_content_dir() -> Path:
+    """優先使用環境變數；若在 Render 且掛了 /data，強制落到持久碟，避免寫進會被清掉的 /app。"""
+    env = (os.environ.get("CONTENT_DIR") or "").strip()
+    if env:
+        path = Path(env)
+    elif Path("/data").exists():
+        path = Path("/data/content")
+    else:
+        path = ROOT / "content"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+CONTENT = resolve_content_dir()
 FILES_DIR = CONTENT / "files"
 DRAFT_PATH = CONTENT / "draft" / "machines.json"
 PUBLISHED_PATH = CONTENT / "published" / "machines.json"
@@ -254,12 +269,23 @@ def auth_check(_: None = Depends(require_auth)) -> dict:
 @app.get("/api/health")
 def health_check() -> dict:
     published = load_published() if PUBLISHED_PATH.exists() else {}
+    data_mounted = Path("/data").exists()
+    ephemeral = str(CONTENT).startswith("/app") or (
+        not data_mounted and str(CONTENT) == str(ROOT / "content")
+    )
     return {
         "ok": True,
         "contentDir": str(CONTENT),
+        "dataMounted": data_mounted,
+        "ephemeralStorage": ephemeral,
         "publishedVersion": published.get("version"),
         "publishedAt": published.get("updatedAt"),
         "filesDirExists": FILES_DIR.is_dir(),
+        "warning": (
+            "內容寫在容器暫存區，重新部署後上傳會消失。請在 Render 設定 CONTENT_DIR=/data/content 並掛載 Disk 到 /data。"
+            if ephemeral
+            else None
+        ),
     }
 
 

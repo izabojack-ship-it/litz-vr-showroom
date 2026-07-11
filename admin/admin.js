@@ -353,6 +353,14 @@ passwordForm?.addEventListener('submit', async (e) => {
     await api('/api/auth/check');
     showDashboard();
     await loadDashboard();
+    try {
+      const health = await fetch('/api/health').then((r) => r.json());
+      const warn = document.getElementById('storage-warning');
+      if (warn && health.ephemeralStorage) {
+        warn.hidden = false;
+        warn.textContent = health.warning || '警告：上傳檔案未寫入持久碟，重新部署後會消失。';
+      }
+    } catch { /* ignore */ }
   } catch {
     showLogin();
   }
