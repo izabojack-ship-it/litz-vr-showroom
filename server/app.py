@@ -45,6 +45,15 @@ LAYOUT_PATH = ROOT / "js" / "machines.layout.json"
 ADMIN_CONFIG_PATH = CONTENT / "config" / "admin.json"
 SEED_PUBLISHED_PATH = ROOT / "content" / "published" / "machines.json"
 
+# 掛載 StaticFiles 前必須先有目錄（空持久碟首次啟動時特別重要）
+for _dir in (
+    FILES_DIR,
+    DRAFT_PATH.parent,
+    PUBLISHED_PATH.parent,
+    ADMIN_CONFIG_PATH.parent,
+):
+    _dir.mkdir(parents=True, exist_ok=True)
+
 DEFAULT_ADMIN_PASSWORD = "litz-admin"
 ALLOWED_IMAGE = {".jpg", ".jpeg", ".png", ".webp"}
 ALLOWED_VIDEO = {".mp4", ".webm"}
