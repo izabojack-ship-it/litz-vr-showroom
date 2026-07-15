@@ -17,7 +17,7 @@
       },
       {
         "id": "z1-center",
-        "name": "ZDC-250TCSA",
+        "name": "ZDC-180 TCSA",
         "subtitle": "冷室壓鑄機 · 第一展區中央機台",
         "position": {
           "yaw": "-40deg",
@@ -31,7 +31,7 @@
       },
       {
         "id": "z1-right",
-        "name": "ZDC-180 TCSA",
+        "name": "ZDC-250TCSA",
         "subtitle": "冷室壓鑄機 · 第一展區右側機台",
         "position": {
           "yaw": "145deg",
