@@ -13,8 +13,8 @@ VIDEO_DIR = Path(r"C:\鋁台精機\真人介紹\build\video")
 # 影音檔名前綴 → 機台 id
 MAPPING = {
     "01_ZDC-180TCSA": "z1-center",
-    "02_ZDC-250TCSA": "z1-right",
-    "03_ZDC-420TCSA": "z1-left",
+    "02_ZDC-250TCSA": "z1-left",
+    "03_ZDC-420TCSA": "z1-right",
     "04_ZDC-560TCSA": "z2-right",
     "05_ZDC-730TCS": "z2-left",
     "06_ZDC-900TCSA": "z5-right",
