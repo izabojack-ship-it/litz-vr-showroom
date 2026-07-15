@@ -178,11 +178,11 @@ def list_layout_machines() -> list[dict]:
     layout = load_layout()
     zones = layout.get("zones", {})
     zone_titles = {
-        "zone-1": "冷式壓鑄機第一展區",
-        "zone-2": "冷式壓鑄機第二展區",
-        "zone-3": "熱式壓鑄機展區",
+        "zone-1": "冷室壓鑄機第一展區",
+        "zone-2": "冷室壓鑄機第二展區",
+        "zone-5": "冷室壓鑄機第三展區",
+        "zone-3": "熱室壓鑄機展區",
         "zone-4": "重力鑄造機展區",
-        "zone-5": "第五展區",
     }
     items: list[dict] = []
     for zone_id, machines in zones.items():

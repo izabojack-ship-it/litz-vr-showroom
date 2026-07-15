@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.14.1/index.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.14.1/index.css">
-  <link rel="stylesheet" href="./css/lobby.css?v=machine83">
+  <link rel="stylesheet" href="./css/lobby.css?v=machine95">
   <script type="importmap">
   {
     "imports": {
@@ -125,12 +125,21 @@
         <p class="lb-presenter-dock__sub">右側為機台實景，導覽員為您解說</p>
       </header>
       <div id="lb-presenter-langs" class="lb-presenter-dock__langs" role="group" aria-label="切換語言"></div>
+      <div class="lb-presenter-dock__sizebar" aria-label="調整視窗大小">
+        <span class="lb-presenter-dock__sizebar-label">視窗大小</span>
+        <button type="button" id="lb-presenter-shrink" class="lb-presenter-dock__size-btn" aria-label="縮小">−</button>
+        <button type="button" id="lb-presenter-reset-size" class="lb-presenter-dock__size-btn" aria-label="還原大小">↺</button>
+        <button type="button" id="lb-presenter-grow" class="lb-presenter-dock__size-btn" aria-label="放大">＋</button>
+      </div>
       <div class="lb-presenter-dock__stage">
         <video id="lb-presenter-video" class="lb-presenter-dock__video" controls playsinline webkit-playsinline preload="metadata" x-webkit-airplay="allow"></video>
+      </div>
+      <div id="lb-presenter-resize" class="lb-presenter-dock__resize" role="separator" aria-label="拖曳調整視窗大小" title="拖曳調整大小，雙擊還原">
+        <span aria-hidden="true">⤡</span>
       </div>
     </div>
   </aside>
 
-  <script type="module" src="./js/lobby.js?v=machine83"></script>
+  <script type="module" src="./js/lobby.js?v=hall250715c"></script>
 </body>
 </html>

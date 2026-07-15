@@ -4,55 +4,120 @@
       {
         "id": "z1-left",
         "name": "ZDC-420 TCSA",
-        "subtitle": "冷式壓鑄機 · 第一展區左側機台",
-        "position": { "yaw": "-100deg", "pitch": "-32deg" },
-        "focus": { "yaw": "-100deg", "pitch": "3deg", "zoom": 50 }
+        "subtitle": "冷室壓鑄機 · 第一展區左側機台",
+        "position": {
+          "yaw": "-112deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "-112deg",
+          "pitch": "3deg",
+          "zoom": 50
+        }
       },
       {
         "id": "z1-center",
         "name": "ZDC-250TCSA",
-        "subtitle": "冷式壓鑄機 · 第一展區中央機台",
-        "position": { "yaw": "3deg", "pitch": "-32deg" },
-        "focus": { "yaw": "3deg", "pitch": "3deg", "zoom": 51 }
+        "subtitle": "冷室壓鑄機 · 第一展區中央機台",
+        "position": {
+          "yaw": "-40deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "-40deg",
+          "pitch": "3deg",
+          "zoom": 51
+        }
       },
       {
         "id": "z1-right",
         "name": "ZDC-180 TCSA",
-        "subtitle": "冷式壓鑄機 · 第一展區右側機台",
-        "position": { "yaw": "73deg", "pitch": "-32deg" },
-        "focus": { "yaw": "73deg", "pitch": "3deg", "zoom": 50 }
+        "subtitle": "冷室壓鑄機 · 第一展區右側機台",
+        "position": {
+          "yaw": "145deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "145deg",
+          "pitch": "3deg",
+          "zoom": 50
+        }
       }
     ],
     "zone-2": [
       {
         "id": "z2-left",
         "name": "ZDC-560TCSA",
-        "subtitle": "冷式壓鑄機 · 第二展區左側機台",
-        "position": { "yaw": "-100deg", "pitch": "-32deg" },
-        "focus": { "yaw": "-100deg", "pitch": "3deg", "zoom": 50 }
-      },
-      {
-        "id": "z2-center",
-        "name": "ZDC-1100TCM",
-        "subtitle": "冷式壓鑄機 · 第二展區中央機台",
-        "position": { "yaw": "0deg", "pitch": "-32deg" },
-        "focus": { "yaw": "0deg", "pitch": "3deg", "zoom": 51 }
+        "subtitle": "冷室壓鑄機 · 第二展區左側機台",
+        "position": {
+          "yaw": "-115deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "-115deg",
+          "pitch": "3deg",
+          "zoom": 50
+        }
       },
       {
         "id": "z2-right",
+        "name": "ZDC-730TCSA",
+        "subtitle": "冷室壓鑄機 · 第二展區右側機台",
+        "position": {
+          "yaw": "150deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "150deg",
+          "pitch": "3deg",
+          "zoom": 51
+        }
+      }
+    ],
+    "zone-5": [
+      {
+        "id": "z5-left",
         "name": "ZDC-900TCSA",
-        "subtitle": "冷式壓鑄機 · 第二展區右側機台",
-        "position": { "yaw": "73deg", "pitch": "-32deg" },
-        "focus": { "yaw": "73deg", "pitch": "3deg", "zoom": 50 }
+        "subtitle": "冷室壓鑄機 · 第三展區左側機台",
+        "position": {
+          "yaw": "-80deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "-80deg",
+          "pitch": "3deg",
+          "zoom": 50
+        }
+      },
+      {
+        "id": "z5-right",
+        "name": "ZDC-1100TCM",
+        "subtitle": "冷室壓鑄機 · 第三展區中央機台",
+        "position": {
+          "yaw": "0deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "0deg",
+          "pitch": "3deg",
+          "zoom": 51
+        }
       }
     ],
     "zone-3": [
       {
         "id": "hot-press-1",
         "name": "ZHC-130TCS",
-        "subtitle": "熱式壓鑄機 · 熱室",
-        "position": { "yaw": "-2deg", "pitch": "-32deg" },
-        "focus": { "yaw": "-2deg", "pitch": "3deg", "zoom": 51 }
+        "subtitle": "熱室壓鑄機",
+        "position": {
+          "yaw": "-122deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "-122deg",
+          "pitch": "3deg",
+          "zoom": 51
+        }
       }
     ],
     "zone-4": [
@@ -60,8 +125,15 @@
         "id": "gravity-cast-1",
         "name": "PMC-1000A",
         "subtitle": "重力鑄造機",
-        "position": { "yaw": "-100deg", "pitch": "-32deg" },
-        "focus": { "yaw": "-100deg", "pitch": "4deg", "zoom": 50 }
+        "position": {
+          "yaw": "145deg",
+          "pitch": "-32deg"
+        },
+        "focus": {
+          "yaw": "145deg",
+          "pitch": "4deg",
+          "zoom": 50
+        }
       }
     ]
   }

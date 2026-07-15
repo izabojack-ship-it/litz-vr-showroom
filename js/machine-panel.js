@@ -26,6 +26,15 @@ const presenterTitleEl = document.getElementById('lb-presenter-title');
 const presenterVideoEl = document.getElementById('lb-presenter-video');
 const presenterLangsEl = document.getElementById('lb-presenter-langs');
 const presenterStageEl = presenterVideoEl?.closest('.lb-presenter-dock__stage');
+const presenterInnerEl = presenterDockEl?.querySelector('.lb-presenter-dock__inner');
+const presenterResizeEl = document.getElementById('lb-presenter-resize');
+const presenterShrinkEl = document.getElementById('lb-presenter-shrink');
+const presenterGrowEl = document.getElementById('lb-presenter-grow');
+const presenterResetSizeEl = document.getElementById('lb-presenter-reset-size');
+
+const PRESENTER_SIZE_STORAGE = 'litz-presenter-dock-size';
+const PRESENTER_MIN_SIZE = { w: 220, h: 240 };
+const PRESENTER_NUDGE = { w: 28, h: 32 };
 
 const PRESENTER_LANG_LABELS = { zh: '中文', en: 'EN', th: 'ไทย' };
 const PRESENTER_LANG_ORDER = ['zh', 'en', 'th'];
@@ -37,10 +46,13 @@ let currentMainSrc = '';
 let machineBarExpanded = false;
 let activePresenterLang = 'zh';
 
+let onMachineBarExpanded = null;
+
 function setMachineBarExpanded(expanded) {
   machineBarExpanded = expanded;
   machineDockEl?.classList.toggle('is-expanded', expanded);
   machineToggleEl?.setAttribute('aria-expanded', String(expanded));
+  onMachineBarExpanded?.(expanded);
 }
 
 export function collapseMachineBar() {
@@ -51,8 +63,9 @@ export function expandMachineBar() {
   if (sceneMachines.length) setMachineBarExpanded(true);
 }
 
-export function initMachinePanel({ focusMachine }) {
+export function initMachinePanel({ focusMachine, onMachineBarExpanded: onExpanded }) {
   onFocusMachine = focusMachine;
+  onMachineBarExpanded = onExpanded ?? null;
   panelCloseEl?.addEventListener('click', closeMachinePanel);
   panelEl?.addEventListener('click', (e) => {
     if (e.target === panelEl) closeMachinePanel();
@@ -98,6 +111,116 @@ export function initMachinePanel({ focusMachine }) {
   });
   // 影片載入後依實際比例調整播放框，避免橫式影片被壓成小小一條
   presenterVideoEl?.addEventListener('loadedmetadata', applyPresenterAspect);
+  initPresenterResize();
+  loadPresenterSize();
+}
+
+function getPresenterMaxSize() {
+  const top = 12;
+  const bottom = 88;
+  return {
+    w: Math.min(Math.floor(window.innerWidth * 0.92), 560),
+    h: Math.min(Math.floor(window.innerHeight - top - bottom), 920),
+  };
+}
+
+function applyPresenterSize(w, h, { persist = false } = {}) {
+  if (!presenterDockEl || !presenterInnerEl) return;
+  const max = getPresenterMaxSize();
+  const width = Math.round(Math.max(PRESENTER_MIN_SIZE.w, Math.min(max.w, w)));
+  const height = Math.round(Math.max(PRESENTER_MIN_SIZE.h, Math.min(max.h, h)));
+  presenterDockEl.style.setProperty('--presenter-dock-w', `${width}px`);
+  presenterInnerEl.style.setProperty('--presenter-dock-h', `${height}px`);
+  presenterDockEl.classList.add('is-sized');
+  if (persist) {
+    localStorage.setItem(PRESENTER_SIZE_STORAGE, JSON.stringify({ w: width, h: height }));
+  }
+}
+
+function loadPresenterSize() {
+  try {
+    const raw = localStorage.getItem(PRESENTER_SIZE_STORAGE);
+    if (!raw) return;
+    const { w, h } = JSON.parse(raw);
+    if (Number.isFinite(w) && Number.isFinite(h)) applyPresenterSize(w, h);
+  } catch { /* ignore */ }
+}
+
+function resetPresenterSize() {
+  presenterDockEl?.style.removeProperty('--presenter-dock-w');
+  presenterInnerEl?.style.removeProperty('--presenter-dock-h');
+  presenterDockEl?.classList.remove('is-sized');
+  localStorage.removeItem(PRESENTER_SIZE_STORAGE);
+}
+
+function ensurePresenterSizedBaseline() {
+  if (!presenterDockEl?.classList.contains('is-sized')) {
+    applyPresenterSize(presenterDockEl.offsetWidth, presenterInnerEl.offsetHeight);
+  }
+}
+
+function nudgePresenterSize(dw, dh) {
+  ensurePresenterSizedBaseline();
+  applyPresenterSize(
+    presenterDockEl.offsetWidth + dw,
+    presenterInnerEl.offsetHeight + dh,
+    { persist: true },
+  );
+}
+
+function initPresenterResize() {
+  if (!presenterResizeEl || !presenterDockEl || !presenterInnerEl) return;
+
+  presenterShrinkEl?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    nudgePresenterSize(-PRESENTER_NUDGE.w, -PRESENTER_NUDGE.h);
+  });
+  presenterGrowEl?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    nudgePresenterSize(PRESENTER_NUDGE.w, PRESENTER_NUDGE.h);
+  });
+  presenterResetSizeEl?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    resetPresenterSize();
+    applyPresenterAspect();
+  });
+
+  presenterResizeEl.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    resetPresenterSize();
+    applyPresenterAspect();
+  });
+
+  presenterResizeEl.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const startX = e.clientX;
+    const startY = e.clientY;
+    ensurePresenterSizedBaseline();
+    const startW = presenterDockEl.offsetWidth;
+    const startH = presenterInnerEl.offsetHeight;
+
+    presenterDockEl.classList.add('is-resizing');
+
+    const onMove = (ev) => {
+      applyPresenterSize(startW + (ev.clientX - startX), startH + (ev.clientY - startY));
+    };
+
+    const onUp = () => {
+      presenterDockEl.classList.remove('is-resizing');
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      document.removeEventListener('pointercancel', onUp);
+      applyPresenterSize(presenterDockEl.offsetWidth, presenterInnerEl.offsetHeight, { persist: true });
+    };
+
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+    document.addEventListener('pointercancel', onUp);
+  });
 }
 
 function applyPresenterAspect() {
@@ -429,19 +552,20 @@ function handleMenuAction(action, machine) {
     }
     return;
   }
-  if (action === 'catalog' && machine.catalogUrl) {
-    window.open(machine.catalogUrl, '_blank', 'noopener');
+  if (action === 'catalog') {
+    if (machine.catalogUrl) {
+      window.open(machine.catalogUrl, '_blank', 'noopener');
+    } else {
+      window.alert(`${machine.name} 尚未上傳產品型錄。`);
+    }
     return;
   }
-  if (action === 'cases' && machine.casesUrl) {
-    window.open(machine.casesUrl, '_blank', 'noopener');
+  if (action === 'cases') {
+    if (machine.casesUrl) {
+      window.open(machine.casesUrl, '_blank', 'noopener');
+    } else {
+      window.alert(`${machine.name} 尚未設定應用案例連結。`);
+    }
     return;
-  }
-  const messages = {
-    catalog: `${machine.name} 尚未上傳型錄，請至管理後台設定。`,
-    cases: `${machine.name} 尚未設定應用案例連結。`,
-  };
-  if (messages[action]) {
-    window.alert(messages[action]);
   }
 }

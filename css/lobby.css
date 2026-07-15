@@ -12,6 +12,7 @@
   --lb-safe: env(safe-area-inset-bottom, 0px);
   --lb-toggle-h: 34px;
   --lb-stack-gap: 8px;
+  --lb-expand-panel-h: 64px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -403,6 +404,32 @@ html, body {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+/* 展區展開時，機台按鈕上移，避免遮住展區縮圖 */
+.lb-ui:has(.lb-zone-dock.is-expanded) .lb-machine-dock.is-available {
+  bottom: calc(
+    12px + var(--lb-toggle-h) + var(--lb-stack-gap) +
+    var(--lb-expand-panel-h) + var(--lb-stack-gap) +
+    var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-safe)
+  );
+}
+
+.lb-ui:has(.lb-zone-dock.is-expanded):has(.lb-machine-dock.is-available) .lb-radar {
+  bottom: calc(
+    12px + var(--lb-toggle-h) + var(--lb-stack-gap) +
+    var(--lb-expand-panel-h) + var(--lb-stack-gap) +
+    var(--lb-toggle-h) + var(--lb-stack-gap) +
+    var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-safe)
+  );
+}
+
+/* 機台展開時，展區按鈕下移讓位（互斥展開時的保險） */
+.lb-ui:has(.lb-machine-dock.is-expanded) .lb-zone-dock {
+  bottom: calc(
+    12px + var(--lb-toggle-h) + var(--lb-stack-gap) +
+    var(--lb-expand-panel-h) + var(--lb-stack-gap) + var(--lb-safe)
+  );
 }
 
 .lb-thumb {
@@ -908,10 +935,14 @@ html, body {
   bottom: auto;
   max-height: calc(100dvh - max(12px, env(safe-area-inset-top)) - 88px - var(--lb-safe));
   z-index: 100;
-  width: min(100%, 340px);
+  width: var(--presenter-dock-w, min(100%, 340px));
   pointer-events: none;
   transform: translateX(calc(-100% - 20px));
   transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lb-presenter-dock.is-sized {
+  max-height: calc(100dvh - max(12px, env(safe-area-inset-top)) - 12px - var(--lb-safe));
 }
 
 .lb-presenter-dock.is-open {
@@ -931,6 +962,17 @@ html, body {
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 8px 0 32px rgba(0, 0, 0, 0.35);
+}
+
+.lb-presenter-dock.is-sized .lb-presenter-dock__inner {
+  height: var(--presenter-dock-h, auto);
+  min-height: 240px;
+}
+
+.lb-presenter-dock.is-sized .lb-presenter-dock__stage {
+  flex: 1 1 auto;
+  aspect-ratio: unset;
+  min-height: 120px;
 }
 
 .lb-presenter-dock__close {
@@ -1013,6 +1055,42 @@ html, body {
   color: #0a1020;
 }
 
+.lb-presenter-dock__sizebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lb-presenter-dock__sizebar-label {
+  flex: 1 1 auto;
+  font-size: 0.72rem;
+  color: var(--lb-muted);
+}
+
+.lb-presenter-dock__size-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font: inherit;
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lb-presenter-dock__size-btn:hover {
+  border-color: var(--lb-accent);
+  color: var(--lb-accent);
+}
+
 .lb-presenter-dock__stage {
   flex: 0 1 auto;
   min-height: 0;
@@ -1033,6 +1111,40 @@ html, body {
   /* iOS Safari：允許行內播放與觸控操作 */
   -webkit-touch-callout: default;
   touch-action: manipulation;
+}
+
+.lb-presenter-dock__resize {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(251, 191, 36, 0.55);
+  color: var(--lb-accent);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: nwse-resize;
+  touch-action: none;
+  pointer-events: auto;
+  z-index: 12;
+  user-select: none;
+}
+
+.lb-presenter-dock__resize span {
+  pointer-events: none;
+}
+
+.lb-presenter-dock.is-resizing {
+  transition: none;
+  user-select: none;
+}
+
+.lb-presenter-dock.is-resizing .lb-presenter-dock__video {
+  pointer-events: none;
 }
 
 .lb-panel-menu {
@@ -1123,8 +1235,11 @@ html, body {
   }
 
   .lb-presenter-dock {
-    width: min(72vw, 240px);
-    bottom: calc(12px + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + var(--lb-stack-gap) + var(--lb-toggle-h) + 24px + var(--lb-safe));
+    width: var(--presenter-dock-w, min(72vw, 240px));
+  }
+
+  .lb-presenter-dock.is-sized {
+    width: var(--presenter-dock-w, min(92vw, 360px));
   }
   .lb-product-panel__inner { width: 100%; }
 }

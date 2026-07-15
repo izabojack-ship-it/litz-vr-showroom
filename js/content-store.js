@@ -46,23 +46,27 @@ function resolvePresenterVideos(content) {
 
 function buildMenu(content) {
   const menu = [];
+  // 產品圖示：有照片才列入（點擊展開圖庫）
   if (content.photos?.length) {
     menu.push({ label: '產品圖示', action: 'images' });
   }
-  if (content.catalogUrl) {
-    menu.push({
-      label: '產品型錄',
-      action: 'catalog',
-      href: resolveContentUrl(content.catalogUrl),
-    });
-  }
-  if (content.casesUrl) {
-    menu.push({
-      label: '應用案例',
-      action: 'cases',
-      href: resolveContentUrl(content.casesUrl),
-    });
-  }
+  // 型錄／案例：一律呈現選單；尚無資料時由面板顯示「無資料」提示
+  const catalogHref = content.catalogUrl
+    ? resolveContentUrl(content.catalogUrl)
+    : '';
+  menu.push({
+    label: '產品型錄',
+    action: 'catalog',
+    ...(catalogHref ? { href: catalogHref } : {}),
+  });
+  const casesHref = content.casesUrl
+    ? resolveContentUrl(content.casesUrl)
+    : '';
+  menu.push({
+    label: '應用案例',
+    action: 'cases',
+    ...(casesHref ? { href: casesHref } : {}),
+  });
   if (content.contactUrl) {
     menu.push({
       label: '聯絡我們',
