@@ -47,7 +47,7 @@
     "zone-2": [
       {
         "id": "z2-left",
-        "name": "ZDC-560TCSA",
+        "name": "ZDC-730TCSA",
         "subtitle": "冷室壓鑄機 · 第二展區左側機台",
         "position": {
           "yaw": "-115deg",
@@ -61,7 +61,7 @@
       },
       {
         "id": "z2-right",
-        "name": "ZDC-730TCSA",
+        "name": "ZDC-560TCSA",
         "subtitle": "冷室壓鑄機 · 第二展區右側機台",
         "position": {
           "yaw": "150deg",
@@ -77,7 +77,7 @@
     "zone-5": [
       {
         "id": "z5-left",
-        "name": "ZDC-900TCSA",
+        "name": "ZDC-1100TCM",
         "subtitle": "冷室壓鑄機 · 第三展區左側機台",
         "position": {
           "yaw": "-80deg",
@@ -91,7 +91,7 @@
       },
       {
         "id": "z5-right",
-        "name": "ZDC-1100TCM",
+        "name": "ZDC-900TCSA",
         "subtitle": "冷室壓鑄機 · 第三展區中央機台",
         "position": {
           "yaw": "0deg",

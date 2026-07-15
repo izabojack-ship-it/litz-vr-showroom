@@ -12,13 +12,13 @@ VIDEO_DIR = Path(r"C:\鋁台精機\真人介紹\build\video")
 
 # 影音檔名前綴 → 機台 id
 MAPPING = {
-    "01_ZDC-180TCSA": "z1-right",
-    "02_ZDC-250TCSA": "z1-center",
+    "01_ZDC-180TCSA": "z1-center",
+    "02_ZDC-250TCSA": "z1-right",
     "03_ZDC-420TCSA": "z1-left",
-    "04_ZDC-560TCSA": "z2-left",
-    "05_ZDC-730TCS": "z2-right",
-    "06_ZDC-900TCSA": "z5-left",
-    "07_ZDC-1100TCM": "z5-right",
+    "04_ZDC-560TCSA": "z2-right",
+    "05_ZDC-730TCS": "z2-left",
+    "06_ZDC-900TCSA": "z5-right",
+    "07_ZDC-1100TCM": "z5-left",
     "08_ZHC": "hot-press-1",
     "09_PMC": "gravity-cast-1",
 }

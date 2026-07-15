@@ -1,6 +1,6 @@
 {
-  "version": 19,
-  "updatedAt": "2026-07-15T09:15:24Z",
+  "version": 20,
+  "updatedAt": "2026-07-15T09:19:08Z",
   "machines": {
     "z1-left": {
       "intro": "ZDC-420T 冷室壓鑄機，適合中型鋁合金鑄件生產需求，廣泛應用於汽車零件、工業零件與精密鑄件製造。此機型具備穩定的機械結構與射出控制能力，可因應不同產品的成型條件。透過人機介面，操作人員可設定射出速度、壓力、行程與增壓條件，協助提升製程穩定性與產品品質。ZDC-420T 是兼顧產能、穩定性與操作效率的代表機型。",
@@ -57,24 +57,6 @@
       "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
     },
     "z2-left": {
-      "intro": "ZDC-560T 冷室壓鑄機，適用於中大型鋁合金鑄件與穩定量產需求。此機型具備優化的鎖模結構與精準的射出控制系統，可對應汽車零件、工業零件及各類中大型鑄件製造。透過鋁台精機控制系統，操作人員可靈活設定射出速度、壓力與增壓條件，有效提升製程穩定性與產品一致性。ZDC-560T 在產能與品質之間取得良好平衡，適合追求穩定生產與效率提升的客戶。",
-      "photos": [
-        {
-          "full": "media/machines/ZDC-560TCSA.jpg",
-          "thumb": "media/machines/ZDC-560TCSA_thumb.jpg"
-        }
-      ],
-      "presenterVideo": "presenter/z2-left/zh_e622febd0755.mp4",
-      "presenterVideos": {
-        "zh": "presenter/z2-left/zh_e622febd0755.mp4",
-        "en": "presenter/z2-left/en_98db051e100f.mp4",
-        "th": "presenter/z2-left/th_56415a68c798.mp4"
-      },
-      "catalogUrl": "",
-      "casesUrl": "",
-      "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
-    },
-    "z2-right": {
       "intro": "ZDC-730T 冷室壓鑄機，適合中大型鋁合金鑄件與高產能製程需求。此機型可對應較大尺寸的鑄件生產，並具備穩定的鎖模能力與射出性能。透過控制系統的參數設定與製程監控，可協助客戶掌握射出速度、增壓壓力與成型條件，降低生產不穩定因素。ZDC-730T 適合汽車零件、機械零件及多元工業應用，協助客戶提升量產效率與鑄件品質。",
       "photos": [
         {
@@ -82,11 +64,29 @@
           "thumb": "media/machines/ZDC-730TCSA_thumb.jpg"
         }
       ],
-      "presenterVideo": "presenter/z2-right/zh_c1bf3c8e4dba.mp4",
+      "presenterVideo": "presenter/z2-left/zh_d804e8c5372d.mp4",
       "presenterVideos": {
-        "zh": "presenter/z2-right/zh_c1bf3c8e4dba.mp4",
-        "en": "presenter/z2-right/en_458cffc291cf.mp4",
-        "th": "presenter/z2-right/th_82683335e162.mp4"
+        "zh": "presenter/z2-left/zh_d804e8c5372d.mp4",
+        "en": "presenter/z2-left/en_deda5e668ed5.mp4",
+        "th": "presenter/z2-left/th_2699f5981ad1.mp4"
+      },
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
+    },
+    "z2-right": {
+      "intro": "ZDC-560T 冷室壓鑄機，適用於中大型鋁合金鑄件與穩定量產需求。此機型具備優化的鎖模結構與精準的射出控制系統，可對應汽車零件、工業零件及各類中大型鑄件製造。透過鋁台精機控制系統，操作人員可靈活設定射出速度、壓力與增壓條件，有效提升製程穩定性與產品一致性。ZDC-560T 在產能與品質之間取得良好平衡，適合追求穩定生產與效率提升的客戶。",
+      "photos": [
+        {
+          "full": "media/machines/ZDC-560TCSA.jpg",
+          "thumb": "media/machines/ZDC-560TCSA_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "presenter/z2-right/zh_1f6b96057742.mp4",
+      "presenterVideos": {
+        "zh": "presenter/z2-right/zh_1f6b96057742.mp4",
+        "en": "presenter/z2-right/en_46b3647cd0c5.mp4",
+        "th": "presenter/z2-right/th_dca9cb27c87e.mp4"
       },
       "catalogUrl": "",
       "casesUrl": "",
@@ -129,24 +129,6 @@
       "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
     },
     "z5-left": {
-      "intro": "ZDC-900T 冷室壓鑄機，主要對應中大型鋁合金鑄件生產，適合需要較高鎖模力與穩定射出控制的製程應用。此機型可應用於汽車零件、電機零件、工業結構件與多元鑄造產品。設備設計注重長時間運轉穩定性與操作便利性，搭配鋁台精機控制系統，可協助客戶進行成型條件設定、製程管理與品質控制，提升整體生產效率。",
-      "photos": [
-        {
-          "full": "media/machines/ZDC-900TCSA.jpg",
-          "thumb": "media/machines/ZDC-900TCSA_thumb.jpg"
-        }
-      ],
-      "presenterVideo": "presenter/z5-left/zh_6317003cd870.mp4",
-      "presenterVideos": {
-        "zh": "presenter/z5-left/zh_6317003cd870.mp4",
-        "en": "presenter/z5-left/en_acee2633af5a.mp4",
-        "th": "presenter/z5-left/th_7b3814580cae.mp4"
-      },
-      "catalogUrl": "",
-      "casesUrl": "",
-      "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
-    },
-    "z5-right": {
       "intro": "ZDC-1100TCM 冷室壓鑄機，為鋁台精機中大型冷室壓鑄設備，適合大型鋁合金鑄件與高穩定性製程需求。此機型具備堅固的機械結構、穩定的鎖模系統與精準的射出控制，可應用於汽車零組件、工業零件與大型鑄件生產。透過控制系統，可設定射出速度、增壓壓力與成型參數，協助客戶提升生產穩定性、鑄件品質與長期設備效能。",
       "photos": [
         {
@@ -154,11 +136,29 @@
           "thumb": "media/machines/ZDC-1100TCM_thumb.jpg"
         }
       ],
-      "presenterVideo": "presenter/z5-right/zh_b12111ccf98c.mp4",
+      "presenterVideo": "presenter/z5-left/zh_4c312848f974.mp4",
       "presenterVideos": {
-        "zh": "presenter/z5-right/zh_b12111ccf98c.mp4",
-        "en": "presenter/z5-right/en_79b100d233e9.mp4",
-        "th": "presenter/z5-right/th_1a499544ea8a.mp4"
+        "zh": "presenter/z5-left/zh_4c312848f974.mp4",
+        "en": "presenter/z5-left/en_215167771e5b.mp4",
+        "th": "presenter/z5-left/th_f227140b23e8.mp4"
+      },
+      "catalogUrl": "",
+      "casesUrl": "",
+      "contactUrl": "https://www.zitai.com/zh-tw/contact.html"
+    },
+    "z5-right": {
+      "intro": "ZDC-900T 冷室壓鑄機，主要對應中大型鋁合金鑄件生產，適合需要較高鎖模力與穩定射出控制的製程應用。此機型可應用於汽車零件、電機零件、工業結構件與多元鑄造產品。設備設計注重長時間運轉穩定性與操作便利性，搭配鋁台精機控制系統，可協助客戶進行成型條件設定、製程管理與品質控制，提升整體生產效率。",
+      "photos": [
+        {
+          "full": "media/machines/ZDC-900TCSA.jpg",
+          "thumb": "media/machines/ZDC-900TCSA_thumb.jpg"
+        }
+      ],
+      "presenterVideo": "presenter/z5-right/zh_ba77c42eecde.mp4",
+      "presenterVideos": {
+        "zh": "presenter/z5-right/zh_ba77c42eecde.mp4",
+        "en": "presenter/z5-right/en_5515febc10fe.mp4",
+        "th": "presenter/z5-right/th_34ba7e1119c5.mp4"
       },
       "catalogUrl": "",
       "casesUrl": "",
