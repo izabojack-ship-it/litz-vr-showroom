@@ -56,13 +56,13 @@ export const SCENE_MACHINES = {
   'zone-2': [
     {
       id: 'z2-left',
-      name: 'ZDC-730TCSA',
+      name: 'ZDC-730TCS',
       subtitle: '冷室壓鑄機 · 第二展區左側機台',
       position: { yaw: '-115deg', pitch: '-32deg' },
       focus: { yaw: '-115deg', pitch: '3deg', zoom: 50 },
       intro: "ZDC-730T 冷室壓鑄機，適合中大型鋁合金鑄件與高產能製程需求。此機型可對應較大尺寸的鑄件生產，並具備穩定的鎖模能力與射出性能。透過控制系統的參數設定與製程監控，可協助客戶掌握射出速度、增壓壓力與成型條件，降低生產不穩定因素。ZDC-730T 適合汽車零件、機械零件及多元工業應用，協助客戶提升量產效率與鑄件品質。",
-      photos: [photo('ZDC-730TCSA')],
-      presenterVideo: presenterVideo('ZDC-730TCSA'),
+      photos: [photo('ZDC-730TCS')],
+      presenterVideo: presenterVideo('ZDC-730TCS'),
       menu: PRODUCT_MENU,
     },
     {
