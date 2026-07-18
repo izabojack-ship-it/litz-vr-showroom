@@ -6,11 +6,11 @@
         "name": "ZDC-250TCSA",
         "subtitle": "冷室壓鑄機 · 第一展區左側機台",
         "position": {
-          "yaw": "-112deg",
+          "yaw": "-43deg",
           "pitch": "-32deg"
         },
         "focus": {
-          "yaw": "-112deg",
+          "yaw": "-43deg",
           "pitch": "3deg",
           "zoom": 50
         }
@@ -20,11 +20,11 @@
         "name": "ZDC-180 TCSA",
         "subtitle": "冷室壓鑄機 · 第一展區中央機台",
         "position": {
-          "yaw": "-40deg",
+          "yaw": "29deg",
           "pitch": "-32deg"
         },
         "focus": {
-          "yaw": "-40deg",
+          "yaw": "29deg",
           "pitch": "3deg",
           "zoom": 51
         }
@@ -34,11 +34,11 @@
         "name": "ZDC-420 TCSA",
         "subtitle": "冷室壓鑄機 · 第一展區右側機台",
         "position": {
-          "yaw": "145deg",
+          "yaw": "-146deg",
           "pitch": "-32deg"
         },
         "focus": {
-          "yaw": "145deg",
+          "yaw": "-146deg",
           "pitch": "3deg",
           "zoom": 50
         }

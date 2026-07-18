@@ -15,7 +15,7 @@ import {
   buildMachineMarkers,
 } from './machine-panel.js?v=hall250716a';
 
-const MEDIA_VERSION = 'hall250718a';
+const MEDIA_VERSION = 'hall250718b';
 // 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
 
 function mediaUrl(folder, file) {
@@ -35,7 +35,7 @@ function makePanoData(width, height) {
 
 // 各場景載入時的預設朝向（面向主機台）
 const DEFAULT_YAW = {
-  'zone-1': '-40deg',
+  'zone-1': '29deg',
   'zone-2': '-115deg',
   'zone-5': '-80deg',
   'zone-3': '-122deg',
