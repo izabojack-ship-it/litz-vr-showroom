@@ -294,11 +294,6 @@ function initViewer() {
     updateThumbnails();
     updateSceneExtras();
   }, { once: true });
-
-  scenes.slice(1).forEach((scene) => {
-    const img = new Image();
-    img.src = scene.panorama;
-  });
 }
 
 initMachinePanel({
