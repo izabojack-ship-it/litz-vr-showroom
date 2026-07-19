@@ -10,9 +10,9 @@ export const ZONES = [
 
     "file": "冷式壓鑄機第一展區.jpg",
 
-    "width": 32000,
+    "width": 8192,
 
-    "height": 16000
+    "height": 4096
 
   },
 
@@ -24,9 +24,9 @@ export const ZONES = [
 
     "file": "冷式壓鑄機第二展區.jpg",
 
-    "width": 32000,
+    "width": 8192,
 
-    "height": 16000
+    "height": 4096
 
   },
 
@@ -38,9 +38,9 @@ export const ZONES = [
 
     "file": "冷式壓鑄機第三展區.jpg",
 
-    "width": 32000,
+    "width": 8192,
 
-    "height": 16000
+    "height": 4096
 
   },
 
@@ -52,9 +52,9 @@ export const ZONES = [
 
     "file": "熱式壓鑄機展區.jpg",
 
-    "width": 32000,
+    "width": 8192,
 
-    "height": 16000
+    "height": 4096
 
   },
 
@@ -66,12 +66,10 @@ export const ZONES = [
 
     "file": "重力鑄造機展區.jpg",
 
-    "width": 32000,
+    "width": 8192,
 
-    "height": 16000
+    "height": 4096
 
   }
 
 ];
-
-

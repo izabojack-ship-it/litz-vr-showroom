@@ -9,6 +9,7 @@ content/draft/
 content/config/admin.json
 server/.env
 media/panoramas/tmp_*
+media/panoramas/_archive_32k/
 media/_chk_*
 scripts/__pycache__/
 media/panoramas/第五展區.jpg

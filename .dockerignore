@@ -20,6 +20,7 @@ server/.env
 Thumbs.db
 desktop.ini
 media/panoramas/tmp_*
+media/panoramas/_archive_32k/
 media/_chk_*
 scripts/__pycache__/
 
