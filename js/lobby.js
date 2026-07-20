@@ -1,5 +1,6 @@
-﻿/**
- * ?蝎暹? VR 撅?嚗?臬?閬?+ 璈隞晶銝餌?撘? */
+/**
+ * 鋁台精機 VR 展間：環景導覽 + 機台介紹主程式
+ */
 import { Viewer, EquirectangularAdapter } from '@photo-sphere-viewer/core';
 import { MarkersPlugin } from '@photo-sphere-viewer/markers-plugin';
 import { ZONES } from './zones.js?v=hall250719a';
@@ -14,8 +15,9 @@ import {
   buildMachineMarkers,
 } from './machine-panel.js?v=hall250716a';
 
-const MEDIA_VERSION = 'hall250720f';
-// 慦?敹怠??嚗???臬??葬??隤輸?甇文澆?臬撥?嗥汗?券??啗???
+const MEDIA_VERSION = 'hall250720g';
+// 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
+
 function mediaUrl(folder, file) {
   return `./media/${folder}/${encodeURIComponent(file)}?v=${MEDIA_VERSION}`;
 }
@@ -31,7 +33,7 @@ function makePanoData(width, height) {
   };
 }
 
-// ??航??交???閮剜????Ｗ?銝餅??堆?
+// 各場景載入時的預設朝向（面向主機台）
 const DEFAULT_YAW = {
   'zone-1': '29deg',
   'zone-2': '-115deg',
@@ -134,7 +136,7 @@ function updateSceneExtras() {
 function buildThumbnailMenu() {
   if (!thumbsEl) return;
   thumbsEl.innerHTML = scenes.map((scene) => `
-    <button type="button" class="lb-thumb" data-scene-id="${scene.id}" aria-label="?? ${scene.title}">
+    <button type="button" class="lb-thumb" data-scene-id="${scene.id}" aria-label="前往 ${scene.title}">
       <img class="lb-thumb__img" src="${scene.thumbnail}" alt="" loading="lazy">
       <span class="lb-thumb__name">${scene.title}</span>
     </button>`).join('');
@@ -185,7 +187,7 @@ async function switchScene(targetId) {
     fadeEl?.classList.add('is-out');
     await wait(460);
 
-    if (loaderSubEl) loaderSubEl.textContent = `甇?頛 ${target.title}?圳;
+    if (loaderSubEl) loaderSubEl.textContent = `正在載入 ${target.title}…`;
     loaderEl?.classList.remove('is-hidden');
 
     await viewer.setPanorama(target.panorama, {
@@ -207,7 +209,7 @@ async function switchScene(targetId) {
     await wait(460);
     fadeEl?.classList.remove('is-in');
   } catch (err) {
-    console.error('[lobby-tour] ???湔憭望?', err);
+    console.error('[lobby-tour] 切換場景失敗', err);
     fadeEl?.classList.remove('is-out', 'is-in');
   } finally {
     loaderEl?.classList.add('is-hidden');
@@ -231,7 +233,7 @@ function initViewer() {
   const first = scenes[0];
   if (!first) return;
 
-  if (loaderSubEl) loaderSubEl.textContent = `甇?頛 ${first.title}?圳;
+  if (loaderSubEl) loaderSubEl.textContent = `正在載入 ${first.title}…`;
   if (sceneNameEl) sceneNameEl.textContent = first.title;
 
   viewer = new Viewer({
@@ -240,7 +242,7 @@ function initViewer() {
     panorama: first.panorama,
     panoData: first.panoData,
     caption: first.title,
-    loadingTxt: '頛 VR ?湔銝凌?,
+    loadingTxt: '載入 VR 場景中…',
     navbar: false,
     defaultYaw: first.defaultYaw,
     defaultPitch: first.defaultPitch,
@@ -306,12 +308,12 @@ buildThumbnailMenu();
 resetBtn?.addEventListener('click', () => resetView());
 
 async function boot() {
-  if (loaderSubEl) loaderSubEl.textContent = '甇?頛?Ｗ??批捆??;
+  if (loaderSubEl) loaderSubEl.textContent = '正在載入產品內容…';
   loaderEl?.classList.remove('is-hidden');
   try {
     await loadProductContent();
   } catch (err) {
-    console.error('[lobby] ?Ｗ??批捆頛憭望?嚗??? VR 撅?', err);
+    console.error('[lobby] 產品內容載入失敗，仍開啟 VR 展間', err);
   }
   initViewer();
 }
