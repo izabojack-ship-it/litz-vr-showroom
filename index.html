@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0c1220">
-  <title>鋁台精機 · VR 線上展間</title>
-  <meta name="description" content="鋁台精機壓鑄機 360° VR 線上展間 · 沉浸式環景體驗">
+  <title>?蝎暹? 繚 VR 蝺?撅?</title>
+  <meta name="description" content="?蝎暹?憯?璈?360簞 VR 蝺?撅? 繚 瘝絡撘?舫?撽?>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.14.1/index.css">
@@ -23,13 +23,13 @@
 </head>
 
 <body>
-  <div id="viewer" aria-label="VR 360 環景檢視器"></div>
+  <div id="viewer" aria-label="VR 360 ?唳瑼Ｚ???></div>
 
   <div id="lb-loader" class="lb-loader" role="status" aria-live="polite">
     <div>
       <div class="lb-loader__ring" aria-hidden="true"></div>
-      <p class="lb-loader__title">鋁台精機 · VR 展間</p>
-      <p class="lb-loader__sub">正在載入場景資源…</p>
+      <p class="lb-loader__title">?蝎暹? 繚 VR 撅?</p>
+      <p class="lb-loader__sub">甇?頛?湔鞈???/p>
     </div>
   </div>
 
@@ -37,12 +37,12 @@
 
   <div class="lb-ui">
     <header class="lb-brand">
-      <p class="lb-brand__title">鋁台精機</p>
+      <p class="lb-brand__title">?蝎暹?</p>
       <p id="lb-scene-name" class="lb-brand__scene"></p>
     </header>
 
 
-    <div class="lb-radar" aria-label="方位指示">
+    <div class="lb-radar" aria-label="?嫣??內">
       <svg class="lb-radar__svg" viewBox="0 0 80 80" aria-hidden="true">
         <circle class="lb-radar__disc" cx="40" cy="40" r="36"></circle>
         <circle class="lb-radar__grid" cx="40" cy="40" r="24"></circle>
@@ -54,92 +54,92 @@
         </g>
         <circle class="lb-radar__dot" cx="40" cy="40" r="2.5"></circle>
       </svg>
-      <span class="lb-radar__label">方位</span>
+      <span class="lb-radar__label">?嫣?</span>
     </div>
 
-    <div id="lb-guide-dock" class="lb-guide-dock" aria-label="操作說明區">
+    <div id="lb-guide-dock" class="lb-guide-dock" aria-label="??隤芣??">
       <button type="button" id="lb-guide-toggle" class="lb-guide-toggle" aria-expanded="false" aria-controls="lb-dock">
-        操作說明
+        ??隤芣?
       </button>
-      <div id="lb-dock" class="lb-dock" aria-label="操作說明">
-        <button type="button" id="lb-reset">重設視角</button>
-        <span class="lb-dock__hint">拖曳環景 · 滾輪縮放 · 點擊機台指標看介紹</span>
+      <div id="lb-dock" class="lb-dock" aria-label="??隤芣?">
+        <button type="button" id="lb-reset">?身閬?</button>
+        <span class="lb-dock__hint">??唳 繚 皛曇憚蝮格 繚 暺?璈????蝝?/span>
       </div>
     </div>
 
-    <div id="lb-zone-dock" class="lb-zone-dock" aria-label="展區選單區">
-      <nav id="lb-thumbs" class="lb-thumbs" aria-label="場景選單"></nav>
+    <div id="lb-zone-dock" class="lb-zone-dock" aria-label="撅??詨?">
+      <nav id="lb-thumbs" class="lb-thumbs" aria-label="?湔?詨"></nav>
       <button type="button" id="lb-zone-toggle" class="lb-zone-toggle" aria-expanded="false" aria-controls="lb-thumbs">
-        展區
+        撅?
       </button>
     </div>
-    <!-- 機台選單：預設收起，點「機台」展開 -->
-    <div id="lb-machine-dock" class="lb-machine-dock" aria-label="機台選單區">
-      <nav id="lb-machine-bar" class="lb-machine-bar" aria-label="機台選單"></nav>
+    <!-- 璈?詨嚗?閮剜韏瘀?暺??啜???-->
+    <div id="lb-machine-dock" class="lb-machine-dock" aria-label="璈?詨?">
+      <nav id="lb-machine-bar" class="lb-machine-bar" aria-label="璈?詨"></nav>
       <button type="button" id="lb-machine-toggle" class="lb-machine-toggle" aria-expanded="false" aria-controls="lb-machine-bar">
-        機台
+        璈
       </button>
     </div>
   </div>
 
-  <!-- 機台介紹側欄 -->
-  <aside id="lb-product-panel" class="lb-product-panel" aria-hidden="true" aria-label="產品介紹">
+  <!-- 璈隞晶?湔? -->
+  <aside id="lb-product-panel" class="lb-product-panel" aria-hidden="true" aria-label="?Ｗ?隞晶">
     <div class="lb-product-panel__inner">
-      <button type="button" id="lb-panel-close" class="lb-product-panel__close" aria-label="關閉">×</button>
+      <button type="button" id="lb-panel-close" class="lb-product-panel__close" aria-label="??">?</button>
       <header class="lb-product-panel__head">
         <h2 id="lb-panel-title" class="lb-product-panel__title">DC-1000</h2>
-        <p id="lb-panel-sub" class="lb-product-panel__sub">冷室鑄造機</p>
+        <p id="lb-panel-sub" class="lb-product-panel__sub">?瑕恕??</p>
       </header>
       <div class="lb-gallery">
-        <div id="lb-panel-thumbs" class="lb-gallery__thumbs" aria-label="機台照片縮圖"></div>
-        <button type="button" id="lb-panel-main" class="lb-gallery__main" aria-label="點擊放大機台照片">
+        <div id="lb-panel-thumbs" class="lb-gallery__thumbs" aria-label="璈?抒?蝮桀?"></div>
+        <button type="button" id="lb-panel-main" class="lb-gallery__main" aria-label="暺??曉之璈?抒?">
           <img id="lb-panel-main-img" class="lb-gallery__img" alt="" decoding="async">
-          <span class="lb-gallery__zoom" aria-hidden="true">＋</span>
+          <span class="lb-gallery__zoom" aria-hidden="true">嚗?/span>
         </button>
       </div>
       <section class="lb-product-panel__section">
-        <h3 class="lb-product-panel__label">產品介紹</h3>
+        <h3 class="lb-product-panel__label">?Ｗ?隞晶</h3>
         <p id="lb-panel-intro" class="lb-product-panel__intro"></p>
         <button type="button" id="lb-panel-presenter" class="lb-presenter-btn" hidden>
-          <span class="lb-presenter-btn__icon" aria-hidden="true">▶</span>
-          <span class="lb-presenter-btn__text">真人介紹</span>
+          <span class="lb-presenter-btn__icon" aria-hidden="true">??/span>
+          <span class="lb-presenter-btn__text">?犖隞晶</span>
         </button>
       </section>
-      <nav id="lb-panel-menu" class="lb-panel-menu" aria-label="產品選單"></nav>
+      <nav id="lb-panel-menu" class="lb-panel-menu" aria-label="?Ｗ??詨"></nav>
     </div>
   </aside>
 
-  <!-- 機台照片放大燈箱 -->
-  <div id="lb-lightbox" class="lb-lightbox" aria-hidden="true" role="dialog" aria-label="機台照片">
-    <button type="button" id="lb-lightbox-close" class="lb-lightbox__close" aria-label="關閉">×</button>
+  <!-- 璈?抒??曉之?拳 -->
+  <div id="lb-lightbox" class="lb-lightbox" aria-hidden="true" role="dialog" aria-label="璈?抒?">
+    <button type="button" id="lb-lightbox-close" class="lb-lightbox__close" aria-label="??">?</button>
     <img id="lb-lightbox-img" class="lb-lightbox__img" alt="">
   </div>
 
-  <!-- 真人介紹：左側浮動，右側仍可看到 VR 機台 -->
-  <aside id="lb-presenter-dock" class="lb-presenter-dock" aria-hidden="true" aria-label="真人產品介紹">
+  <!-- ?犖隞晶嚗椰?湔筑???喳隞? VR 璈 -->
+  <aside id="lb-presenter-dock" class="lb-presenter-dock" aria-hidden="true" aria-label="?犖?Ｗ?隞晶">
     <div class="lb-presenter-dock__inner">
-      <button type="button" id="lb-presenter-close" class="lb-presenter-dock__close" aria-label="關閉">×</button>
+      <button type="button" id="lb-presenter-close" class="lb-presenter-dock__close" aria-label="??">?</button>
       <header class="lb-presenter-dock__head">
-        <p class="lb-presenter-dock__badge">AI 真人導覽</p>
+        <p class="lb-presenter-dock__badge">AI ?犖撠汗</p>
         <h3 id="lb-presenter-title" class="lb-presenter-dock__title"></h3>
-        <p class="lb-presenter-dock__sub">右側為機台實景，導覽員為您解說</p>
+        <p class="lb-presenter-dock__sub">?喳?箸??啣祕?荔?撠汗?∠?刻圾隤?/p>
       </header>
-      <div id="lb-presenter-langs" class="lb-presenter-dock__langs" role="group" aria-label="切換語言"></div>
-      <div class="lb-presenter-dock__sizebar" aria-label="調整視窗大小">
-        <span class="lb-presenter-dock__sizebar-label">視窗大小</span>
-        <button type="button" id="lb-presenter-shrink" class="lb-presenter-dock__size-btn" aria-label="縮小">−</button>
-        <button type="button" id="lb-presenter-reset-size" class="lb-presenter-dock__size-btn" aria-label="還原大小">↺</button>
-        <button type="button" id="lb-presenter-grow" class="lb-presenter-dock__size-btn" aria-label="放大">＋</button>
+      <div id="lb-presenter-langs" class="lb-presenter-dock__langs" role="group" aria-label="??隤?"></div>
+      <div class="lb-presenter-dock__sizebar" aria-label="隤踵閬?憭批?">
+        <span class="lb-presenter-dock__sizebar-label">閬?憭批?</span>
+        <button type="button" id="lb-presenter-shrink" class="lb-presenter-dock__size-btn" aria-label="蝮桀?">??/button>
+        <button type="button" id="lb-presenter-reset-size" class="lb-presenter-dock__size-btn" aria-label="??憭批?">??/button>
+        <button type="button" id="lb-presenter-grow" class="lb-presenter-dock__size-btn" aria-label="?曉之">嚗?/button>
       </div>
       <div class="lb-presenter-dock__stage">
         <video id="lb-presenter-video" class="lb-presenter-dock__video" controls playsinline webkit-playsinline preload="metadata" x-webkit-airplay="allow"></video>
       </div>
-      <div id="lb-presenter-resize" class="lb-presenter-dock__resize" role="separator" aria-label="拖曳調整視窗大小" title="拖曳調整大小，雙擊還原">
-        <span aria-hidden="true">⤡</span>
+      <div id="lb-presenter-resize" class="lb-presenter-dock__resize" role="separator" aria-label="?隤踵閬?憭批?" title="?隤踵憭批?嚗?????>
+        <span aria-hidden="true">滮?/span>
       </div>
     </div>
   </aside>
 
-  <script type="module" src="./js/lobby.js?v=hall250720e"></script>
+  <script type="module" src="./js/lobby.js?v=hall250720f"></script>
 </body>
 </html>
