@@ -952,6 +952,17 @@ html, body {
   transform: translateX(0);
 }
 
+.lb-presenter-dock.is-positioned,
+.lb-presenter-dock.is-positioned.is-open {
+  transform: none;
+}
+
+.lb-presenter-dock.is-dragging,
+.lb-presenter-dock.is-resizing {
+  transition: none;
+  user-select: none;
+}
+
 .lb-presenter-dock__inner {
   position: relative;
   display: flex;
@@ -999,6 +1010,13 @@ html, body {
 .lb-presenter-dock__head {
   padding-right: 34px;
   margin-bottom: 10px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.lb-presenter-dock.is-dragging .lb-presenter-dock__head {
+  cursor: grabbing;
 }
 
 .lb-presenter-dock__badge {
@@ -1138,11 +1156,6 @@ html, body {
 
 .lb-presenter-dock__resize span {
   pointer-events: none;
-}
-
-.lb-presenter-dock.is-resizing {
-  transition: none;
-  user-select: none;
 }
 
 .lb-presenter-dock.is-resizing .lb-presenter-dock__video {

@@ -27,12 +27,14 @@ const presenterVideoEl = document.getElementById('lb-presenter-video');
 const presenterLangsEl = document.getElementById('lb-presenter-langs');
 const presenterStageEl = presenterVideoEl?.closest('.lb-presenter-dock__stage');
 const presenterInnerEl = presenterDockEl?.querySelector('.lb-presenter-dock__inner');
+const presenterHeadEl = presenterDockEl?.querySelector('.lb-presenter-dock__head');
 const presenterResizeEl = document.getElementById('lb-presenter-resize');
 const presenterShrinkEl = document.getElementById('lb-presenter-shrink');
 const presenterGrowEl = document.getElementById('lb-presenter-grow');
 const presenterResetSizeEl = document.getElementById('lb-presenter-reset-size');
 
 const PRESENTER_SIZE_STORAGE = 'litz-presenter-dock-size';
+const PRESENTER_POS_STORAGE = 'litz-presenter-dock-pos';
 const PRESENTER_MIN_SIZE = { w: 220, h: 240 };
 const PRESENTER_NUDGE = { w: 28, h: 32 };
 
@@ -112,7 +114,9 @@ export function initMachinePanel({ focusMachine, onMachineBarExpanded: onExpande
   // 影片載入後依實際比例調整播放框，避免橫式影片被壓成小小一條
   presenterVideoEl?.addEventListener('loadedmetadata', applyPresenterAspect);
   initPresenterResize();
+  initPresenterDrag();
   loadPresenterSize();
+  loadPresenterPosition();
 }
 
 function getPresenterMaxSize() {
@@ -168,6 +172,105 @@ function nudgePresenterSize(dw, dh) {
   );
 }
 
+function getPresenterViewportPad() {
+  return { top: 12, left: 12, right: 12, bottom: 96 };
+}
+
+function clampPresenterPos(x, y) {
+  if (!presenterDockEl) return { x, y };
+  const pad = getPresenterViewportPad();
+  const w = presenterDockEl.offsetWidth;
+  const h = presenterDockEl.offsetHeight;
+  return {
+    x: Math.round(Math.max(pad.left, Math.min(window.innerWidth - w - pad.right, x))),
+    y: Math.round(Math.max(pad.top, Math.min(window.innerHeight - h - pad.bottom, y))),
+  };
+}
+
+function applyPresenterPosition(x, y, { persist = false } = {}) {
+  if (!presenterDockEl) return;
+  const { x: cx, y: cy } = clampPresenterPos(x, y);
+  presenterDockEl.style.left = `${cx}px`;
+  presenterDockEl.style.top = `${cy}px`;
+  presenterDockEl.style.right = 'auto';
+  presenterDockEl.style.bottom = 'auto';
+  presenterDockEl.classList.add('is-positioned');
+  if (persist) {
+    localStorage.setItem(PRESENTER_POS_STORAGE, JSON.stringify({ x: cx, y: cy }));
+  }
+}
+
+function loadPresenterPosition() {
+  if (!presenterDockEl) return;
+  try {
+    const raw = localStorage.getItem(PRESENTER_POS_STORAGE);
+    if (!raw) return;
+    const { x, y } = JSON.parse(raw);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+    presenterDockEl.style.left = `${x}px`;
+    presenterDockEl.style.top = `${y}px`;
+    presenterDockEl.style.right = 'auto';
+    presenterDockEl.style.bottom = 'auto';
+    presenterDockEl.classList.add('is-positioned');
+  } catch { /* ignore */ }
+}
+
+function resetPresenterPosition() {
+  if (!presenterDockEl) return;
+  presenterDockEl.style.removeProperty('left');
+  presenterDockEl.style.removeProperty('top');
+  presenterDockEl.style.removeProperty('right');
+  presenterDockEl.style.removeProperty('bottom');
+  presenterDockEl.classList.remove('is-positioned');
+  localStorage.removeItem(PRESENTER_POS_STORAGE);
+}
+
+function initPresenterDrag() {
+  if (!presenterHeadEl || !presenterDockEl) return;
+
+  presenterHeadEl.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0 || !presenterDockEl.classList.contains('is-open')) return;
+    if (e.target.closest('button')) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const rect = presenterDockEl.getBoundingClientRect();
+    const startX = e.clientX;
+    const startY = e.clientY;
+    const origLeft = rect.left;
+    const origTop = rect.top;
+
+    presenterDockEl.classList.add('is-dragging');
+
+    const onMove = (ev) => {
+      applyPresenterPosition(origLeft + (ev.clientX - startX), origTop + (ev.clientY - startY));
+    };
+
+    const onUp = (ev) => {
+      presenterDockEl.classList.remove('is-dragging');
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerup', onUp);
+      document.removeEventListener('pointercancel', onUp);
+      applyPresenterPosition(
+        origLeft + (ev.clientX - startX),
+        origTop + (ev.clientY - startY),
+        { persist: true },
+      );
+    };
+
+    document.addEventListener('pointermove', onMove);
+    document.addEventListener('pointerup', onUp);
+    document.addEventListener('pointercancel', onUp);
+  });
+
+  window.addEventListener('resize', () => {
+    if (!presenterDockEl.classList.contains('is-positioned')) return;
+    const rect = presenterDockEl.getBoundingClientRect();
+    applyPresenterPosition(rect.left, rect.top, { persist: true });
+  });
+}
+
 function initPresenterResize() {
   if (!presenterResizeEl || !presenterDockEl || !presenterInnerEl) return;
 
@@ -182,6 +285,7 @@ function initPresenterResize() {
   presenterResetSizeEl?.addEventListener('click', (e) => {
     e.stopPropagation();
     resetPresenterSize();
+    resetPresenterPosition();
     applyPresenterAspect();
   });
 
@@ -189,6 +293,7 @@ function initPresenterResize() {
     e.preventDefault();
     e.stopPropagation();
     resetPresenterSize();
+    resetPresenterPosition();
     applyPresenterAspect();
   });
 
@@ -350,6 +455,11 @@ function openPresenterDock(machine) {
   presenterDockEl.classList.add('is-open');
   presenterDockEl.setAttribute('aria-hidden', 'false');
   document.body.classList.add('lb-presenter-active');
+
+  if (presenterDockEl.classList.contains('is-positioned')) {
+    const rect = presenterDockEl.getBoundingClientRect();
+    applyPresenterPosition(rect.left, rect.top);
+  }
 
   if (onFocusMachine) onFocusMachine(machine);
 
