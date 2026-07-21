@@ -97,7 +97,11 @@ export function initMachinePanel({ focusMachine, onMachineBarExpanded: onExpande
     const machine = sceneMachines.find((m) => m.id === activeMachineId);
     if (machine) openPresenterDock(machine);
   });
-  presenterCloseEl?.addEventListener('click', closePresenterDock);
+  presenterCloseEl?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closePresenterDock();
+  });
+  presenterCloseEl?.addEventListener('pointerdown', (e) => e.stopPropagation());
   // 只在「真正要播片卻失敗」時提示；關閉時清掉 src 觸發的 error 要忽略
   presenterVideoEl?.addEventListener('error', () => {
     if (presenterVideoEl?.dataset.ignoreError === '1') return;
@@ -517,6 +521,7 @@ function switchPresenterLang(lang) {
 
 function closePresenterDock() {
   if (!presenterDockEl || !presenterVideoEl) return;
+  presenterDockEl.classList.remove('is-dragging', 'is-resizing');
   presenterVideoEl.dataset.ignoreError = '1';
   presenterVideoEl.pause();
   presenterVideoEl.removeAttribute('src');
