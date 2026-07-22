@@ -21,6 +21,7 @@ const lightboxCloseEl = document.getElementById('lb-lightbox-close');
 
 const presenterBtnEl = document.getElementById('lb-panel-presenter');
 const presenterDockEl = document.getElementById('lb-presenter-dock');
+const presenterMinimizeEl = document.getElementById('lb-presenter-minimize');
 const presenterCloseEl = document.getElementById('lb-presenter-close');
 const presenterTitleEl = document.getElementById('lb-presenter-title');
 const presenterVideoEl = document.getElementById('lb-presenter-video');
@@ -32,6 +33,11 @@ const presenterResizeEl = document.getElementById('lb-presenter-resize');
 const presenterShrinkEl = document.getElementById('lb-presenter-shrink');
 const presenterGrowEl = document.getElementById('lb-presenter-grow');
 const presenterResetSizeEl = document.getElementById('lb-presenter-reset-size');
+const presenterMiniEl = document.getElementById('lb-presenter-mini');
+const presenterMiniRestoreEl = document.getElementById('lb-presenter-mini-restore');
+const presenterMiniToggleEl = document.getElementById('lb-presenter-mini-toggle');
+const presenterMiniStopEl = document.getElementById('lb-presenter-mini-stop');
+const presenterMiniLabelEl = document.getElementById('lb-presenter-mini-label');
 
 const PRESENTER_SIZE_STORAGE = 'litz-presenter-dock-size';
 const PRESENTER_POS_STORAGE = 'litz-presenter-dock-pos';
@@ -83,6 +89,11 @@ export function initMachinePanel({ focusMachine, onMachineBarExpanded: onExpande
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     if (presenterDockEl?.classList.contains('is-open')) {
+      // 有畫面時 Esc 先隱藏畫面，語音繼續；再按一次才結束
+      minimizePresenterDock();
+      return;
+    }
+    if (isPresenterAudioActive()) {
       closePresenterDock();
       return;
     }
@@ -97,11 +108,19 @@ export function initMachinePanel({ focusMachine, onMachineBarExpanded: onExpande
     const machine = sceneMachines.find((m) => m.id === activeMachineId);
     if (machine) openPresenterDock(machine);
   });
+  presenterMinimizeEl?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    minimizePresenterDock();
+  });
+  presenterMinimizeEl?.addEventListener('pointerdown', (e) => e.stopPropagation());
   presenterCloseEl?.addEventListener('click', (e) => {
     e.stopPropagation();
     closePresenterDock();
   });
   presenterCloseEl?.addEventListener('pointerdown', (e) => e.stopPropagation());
+  presenterMiniRestoreEl?.addEventListener('click', restorePresenterDock);
+  presenterMiniToggleEl?.addEventListener('click', togglePresenterPlayback);
+  presenterMiniStopEl?.addEventListener('click', closePresenterDock);
   // 只在「真正要播片卻失敗」時提示；關閉時清掉 src 觸發的 error 要忽略
   presenterVideoEl?.addEventListener('error', () => {
     if (presenterVideoEl?.dataset.ignoreError === '1') return;
@@ -115,6 +134,9 @@ export function initMachinePanel({ focusMachine, onMachineBarExpanded: onExpande
     }
     closePresenterDock();
   });
+  presenterVideoEl?.addEventListener('play', updatePresenterMiniToggle);
+  presenterVideoEl?.addEventListener('pause', updatePresenterMiniToggle);
+  presenterVideoEl?.addEventListener('ended', updatePresenterMiniToggle);
   // 影片載入後依實際比例調整播放框，避免橫式影片被壓成小小一條
   presenterVideoEl?.addEventListener('loadedmetadata', applyPresenterAspect);
   initPresenterResize();
@@ -433,6 +455,77 @@ function hideProductPanel() {
   panelEl?.setAttribute('aria-hidden', 'true');
 }
 
+function hasPresenterSrc() {
+  return Boolean(presenterVideoEl?.getAttribute('src') || presenterVideoEl?.currentSrc);
+}
+
+function isPresenterAudioActive() {
+  return Boolean(
+    presenterDockEl?.classList.contains('is-audio-only')
+    || document.body.classList.contains('lb-presenter-audio'),
+  );
+}
+
+function setPresenterMiniVisible(visible) {
+  if (!presenterMiniEl) return;
+  presenterMiniEl.hidden = !visible;
+  presenterMiniEl.classList.toggle('is-visible', visible);
+  presenterMiniEl.setAttribute('aria-hidden', String(!visible));
+}
+
+function updatePresenterMiniLabel(machineName = '') {
+  if (!presenterMiniLabelEl) return;
+  const name = machineName || presenterTitleEl?.textContent || '';
+  presenterMiniLabelEl.textContent = name ? `語音導覽中 · ${name}` : '語音導覽中';
+}
+
+function updatePresenterMiniToggle() {
+  if (!presenterMiniToggleEl || !presenterVideoEl) return;
+  const paused = presenterVideoEl.paused || presenterVideoEl.ended;
+  presenterMiniToggleEl.textContent = paused ? '▶' : '❚❚';
+  presenterMiniToggleEl.setAttribute('aria-label', paused ? '繼續播放' : '暫停');
+  presenterMiniToggleEl.title = paused ? '繼續播放' : '暫停';
+}
+
+function togglePresenterPlayback() {
+  if (!presenterVideoEl || !hasPresenterSrc()) return;
+  if (presenterVideoEl.paused || presenterVideoEl.ended) {
+    if (presenterVideoEl.ended) {
+      try { presenterVideoEl.currentTime = 0; } catch { /* ignore */ }
+    }
+    presenterVideoEl.play().catch(() => {});
+  } else {
+    presenterVideoEl.pause();
+  }
+  updatePresenterMiniToggle();
+}
+
+/** 隱藏導覽畫面，語音／影片繼續播放（適合手機小螢幕） */
+function minimizePresenterDock() {
+  if (!presenterDockEl || !presenterVideoEl || !hasPresenterSrc()) return;
+  presenterDockEl.classList.remove('is-open', 'is-dragging', 'is-resizing');
+  presenterDockEl.classList.add('is-audio-only');
+  presenterDockEl.setAttribute('aria-hidden', 'true');
+  document.body.classList.add('lb-presenter-active', 'lb-presenter-audio');
+  updatePresenterMiniLabel();
+  updatePresenterMiniToggle();
+  setPresenterMiniVisible(true);
+}
+
+function restorePresenterDock() {
+  if (!presenterDockEl || !hasPresenterSrc()) return;
+  presenterDockEl.classList.remove('is-audio-only');
+  presenterDockEl.classList.add('is-open');
+  presenterDockEl.setAttribute('aria-hidden', 'false');
+  document.body.classList.remove('lb-presenter-audio');
+  setPresenterMiniVisible(false);
+
+  if (presenterDockEl.classList.contains('is-positioned')) {
+    const rect = presenterDockEl.getBoundingClientRect();
+    applyPresenterPosition(rect.left, rect.top);
+  }
+}
+
 function openPresenterDock(machine) {
   if (!presenterDockEl || !presenterVideoEl) return;
   const videos = getPresenterVideos(machine);
@@ -445,6 +538,8 @@ function openPresenterDock(machine) {
 
   presenterTitleEl.textContent = machine.name;
   renderPresenterLangControls(machine);
+  updatePresenterMiniLabel(machine.name);
+  setPresenterMiniVisible(false);
 
   presenterStageEl?.style.removeProperty('--presenter-aspect');
   presenterVideoEl.pause();
@@ -456,9 +551,11 @@ function openPresenterDock(machine) {
   presenterVideoEl.src = videos[activePresenterLang];
   presenterVideoEl.load();
 
+  presenterDockEl.classList.remove('is-audio-only');
   presenterDockEl.classList.add('is-open');
   presenterDockEl.setAttribute('aria-hidden', 'false');
   document.body.classList.add('lb-presenter-active');
+  document.body.classList.remove('lb-presenter-audio');
 
   if (presenterDockEl.classList.contains('is-positioned')) {
     const rect = presenterDockEl.getBoundingClientRect();
@@ -521,7 +618,7 @@ function switchPresenterLang(lang) {
 
 function closePresenterDock() {
   if (!presenterDockEl || !presenterVideoEl) return;
-  presenterDockEl.classList.remove('is-dragging', 'is-resizing');
+  presenterDockEl.classList.remove('is-dragging', 'is-resizing', 'is-audio-only');
   presenterVideoEl.dataset.ignoreError = '1';
   presenterVideoEl.pause();
   presenterVideoEl.removeAttribute('src');
@@ -534,7 +631,8 @@ function closePresenterDock() {
   });
   presenterDockEl.classList.remove('is-open');
   presenterDockEl.setAttribute('aria-hidden', 'true');
-  document.body.classList.remove('lb-presenter-active');
+  document.body.classList.remove('lb-presenter-active', 'lb-presenter-audio');
+  setPresenterMiniVisible(false);
 }
 
 export function setSceneMachines(machines) {

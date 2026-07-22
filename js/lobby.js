@@ -13,9 +13,9 @@ import {
   closeMachinePanel,
   collapseMachineBar,
   buildMachineMarkers,
-} from './machine-panel.js?v=hall250720c';
+} from './machine-panel.js?v=hall250722a';
 
-const MEDIA_VERSION = 'hall250720j';
+const MEDIA_VERSION = 'hall250722a';
 // 媒體快取版本：更換背景圖或縮圖後調高此值即可強制瀏覽器重新載入
 
 function mediaUrl(folder, file) {

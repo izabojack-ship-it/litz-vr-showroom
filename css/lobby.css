@@ -991,28 +991,136 @@ html, body {
   min-height: 120px;
 }
 
-.lb-presenter-dock__close {
+.lb-presenter-dock__actions {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 3;
+  display: flex;
+  gap: 6px;
+}
+
+.lb-presenter-dock__action {
   width: 32px;
   height: 32px;
   border: none;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
-  font-size: 1.3rem;
+  font-size: 0.85rem;
+  font-weight: 700;
   line-height: 1;
   cursor: pointer;
 }
 
-.lb-presenter-dock__close:hover {
+.lb-presenter-dock__close {
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.lb-presenter-dock__action:hover {
   background: rgba(255, 255, 255, 0.2);
 }
 
+.lb-presenter-dock__action:focus-visible {
+  outline: 2px solid var(--lb-accent);
+  outline-offset: 2px;
+}
+
+/* 隱藏畫面但保留播音：視訊仍掛在 DOM，僅視覺收起 */
+.lb-presenter-dock.is-audio-only {
+  pointer-events: none;
+  visibility: visible;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  max-height: 1px;
+  overflow: hidden;
+  transform: none;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.lb-presenter-dock.is-audio-only .lb-presenter-dock__inner {
+  min-height: 0;
+  height: 1px;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.lb-presenter-mini {
+  position: fixed;
+  left: 50%;
+  top: max(12px, env(safe-area-inset-top));
+  bottom: auto;
+  z-index: 110;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  max-width: min(94vw, 420px);
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(8, 14, 28, 0.88);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.lb-presenter-mini.is-visible {
+  display: flex;
+}
+
+.lb-presenter-mini__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.lb-presenter-mini__btn {
+  flex: 0 0 auto;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.lb-presenter-mini__btn:hover {
+  border-color: var(--lb-accent);
+  color: var(--lb-accent);
+}
+
+.lb-presenter-mini__restore {
+  border-color: rgba(251, 191, 36, 0.45);
+  color: var(--lb-accent);
+}
+
+.lb-presenter-mini__stop {
+  width: 32px;
+  padding: 0;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
 .lb-presenter-dock__head {
-  padding-right: 34px;
+  padding-right: 78px;
   margin-bottom: 10px;
   cursor: grab;
   user-select: none;
@@ -1274,16 +1382,36 @@ html, body {
   .lb-presenter-dock__inner {
     padding: 8px 10px 10px;
   }
-  .lb-presenter-dock__close {
-    width: 26px;
-    height: 26px;
+  .lb-presenter-dock__actions {
     top: 6px;
     right: 6px;
+    gap: 4px;
+  }
+  .lb-presenter-dock__action {
+    width: 26px;
+    height: 26px;
+    font-size: 0.72rem;
+  }
+  .lb-presenter-dock__close {
     font-size: 1.1rem;
   }
   .lb-presenter-dock__head {
     margin-bottom: 6px;
-    padding-right: 30px;
+    padding-right: 64px;
+  }
+  .lb-presenter-mini {
+    top: max(8px, env(safe-area-inset-top));
+    gap: 6px;
+    padding: 6px 8px;
+  }
+  .lb-presenter-mini__btn {
+    height: 28px;
+    padding: 0 8px;
+    font-size: 0.72rem;
+  }
+  .lb-presenter-mini__stop {
+    width: 28px;
+    font-size: 1.05rem;
   }
   .lb-presenter-dock__badge,
   .lb-presenter-dock__sub {

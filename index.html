@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5.14.1/index.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5.14.1/index.css">
-  <link rel="stylesheet" href="./css/lobby.css?v=machine100">
+  <link rel="stylesheet" href="./css/lobby.css?v=presenter-audio1">
   <script type="importmap">
   {
     "imports": {
@@ -118,7 +118,10 @@
   <!-- 真人介紹：左側浮動，右側仍可看到 VR 機台 -->
   <aside id="lb-presenter-dock" class="lb-presenter-dock" aria-hidden="true" aria-label="真人產品介紹">
     <div class="lb-presenter-dock__inner">
-      <button type="button" id="lb-presenter-close" class="lb-presenter-dock__close" aria-label="關閉">×</button>
+      <div class="lb-presenter-dock__actions">
+        <button type="button" id="lb-presenter-minimize" class="lb-presenter-dock__action" title="隱藏畫面，聲音繼續" aria-label="隱藏畫面，聲音繼續">隱</button>
+        <button type="button" id="lb-presenter-close" class="lb-presenter-dock__action lb-presenter-dock__close" title="結束導覽" aria-label="結束導覽">×</button>
+      </div>
       <header class="lb-presenter-dock__head" title="拖曳標題列可移動視窗">
         <p class="lb-presenter-dock__badge">AI 真人導覽</p>
         <h3 id="lb-presenter-title" class="lb-presenter-dock__title"></h3>
@@ -140,6 +143,14 @@
     </div>
   </aside>
 
-  <script type="module" src="./js/lobby.js?v=hall250720j"></script>
+  <!-- 隱藏導覽畫面後：迷你列，語音可繼續 -->
+  <div id="lb-presenter-mini" class="lb-presenter-mini" hidden aria-hidden="true" role="status">
+    <button type="button" id="lb-presenter-mini-restore" class="lb-presenter-mini__btn lb-presenter-mini__restore">顯示畫面</button>
+    <span id="lb-presenter-mini-label" class="lb-presenter-mini__label">語音導覽中</span>
+    <button type="button" id="lb-presenter-mini-toggle" class="lb-presenter-mini__btn" aria-label="暫停">❚❚</button>
+    <button type="button" id="lb-presenter-mini-stop" class="lb-presenter-mini__btn lb-presenter-mini__stop" aria-label="結束導覽">×</button>
+  </div>
+
+  <script type="module" src="./js/lobby.js?v=hall250722a"></script>
 </body>
 </html>
